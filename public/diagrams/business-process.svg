@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1400" height="800" viewBox="0 0 1400 800" fill="none">
+  <rect width="1400" height="800" fill="#09090B"/>
+  <text x="700" y="70" text-anchor="middle" fill="#E4E4E7" font-size="34" font-family="Inter, Arial">Business Process Loop</text>
+  <g font-family="Inter, Arial" font-size="22" fill="#F4F4F5" text-anchor="middle">
+    <rect x="90" y="220" width="260" height="120" rx="18" fill="#18181B" stroke="#3F3F46"/>
+    <text x="220" y="285">Lead Intake</text>
+    <rect x="420" y="220" width="260" height="120" rx="18" fill="#18181B" stroke="#3F3F46"/>
+    <text x="550" y="285">Qualification</text>
+    <rect x="750" y="220" width="260" height="120" rx="18" fill="#18181B" stroke="#3F3F46"/>
+    <text x="880" y="285">Execution</text>
+    <rect x="1080" y="220" width="260" height="120" rx="18" fill="#18181B" stroke="#3F3F46"/>
+    <text x="1210" y="285">Invoice + Collection</text>
+    <rect x="585" y="500" width="260" height="120" rx="18" fill="#1F102A" stroke="#A21CAF"/>
+    <text x="715" y="565">Expansion / Referral</text>
+  </g>
+  <g stroke="#22D3EE" stroke-width="8" stroke-linecap="round">
+    <path d="M350 280 H420"/>
+    <path d="M680 280 H750"/>
+    <path d="M1010 280 H1080"/>
+    <path d="M1210 340 V450 H715"/>
+    <path d="M585 560 H220 V340"/>
+  </g>
+</svg>

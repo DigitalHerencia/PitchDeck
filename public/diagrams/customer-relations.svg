@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1400" height="800" viewBox="0 0 1400 800" fill="none">
+  <rect width="1400" height="800" fill="#09090B"/>
+  <text x="700" y="70" text-anchor="middle" fill="#E4E4E7" font-size="34" font-family="Inter, Arial">Customer Relationship Flywheel</text>
+  <circle cx="700" cy="420" r="220" fill="#111827" stroke="#22D3EE" stroke-width="4"/>
+  <circle cx="700" cy="420" r="90" fill="#1F102A" stroke="#A21CAF" stroke-width="3"/>
+  <text x="700" y="430" text-anchor="middle" fill="#F4F4F5" font-size="24" font-family="Inter, Arial">Retention</text>
+  <g font-family="Inter, Arial" font-size="22" fill="#F4F4F5" text-anchor="middle">
+    <text x="700" y="190">Acquire</text>
+    <text x="930" y="430">Deliver</text>
+    <text x="700" y="660">Expand</text>
+    <text x="470" y="430">Refer</text>
+  </g>
+  <g stroke="#22D3EE" stroke-width="7" fill="none" stroke-linecap="round">
+    <path d="M700 215 C855 215 905 315 905 420"/>
+    <path d="M905 420 C905 525 805 625 700 625"/>
+    <path d="M700 625 C545 625 495 525 495 420"/>
+    <path d="M495 420 C495 315 595 215 700 215"/>
+  </g>
+</svg>

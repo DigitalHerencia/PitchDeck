@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1400" height="800" viewBox="0 0 1400 800" fill="none">
+  <rect width="1400" height="800" fill="#09090B"/>
+  <text x="700" y="70" text-anchor="middle" fill="#E4E4E7" font-size="34" font-family="Inter, Arial">Revenue Stream Architecture</text>
+  <rect x="530" y="310" width="340" height="160" rx="18" fill="#1F102A" stroke="#A21CAF"/>
+  <text x="700" y="380" text-anchor="middle" fill="#F4F4F5" font-size="30" font-family="Inter, Arial">Unified Ledger</text>
+  <g font-family="Inter, Arial" font-size="21" fill="#F4F4F5" text-anchor="middle">
+    <rect x="120" y="160" width="260" height="110" rx="14" fill="#18181B" stroke="#3F3F46"/><text x="250" y="225">Bosque Routes</text>
+    <rect x="1020" y="160" width="260" height="110" rx="14" fill="#18181B" stroke="#3F3F46"/><text x="1150" y="225">Digital Herencia Retainers</text>
+    <rect x="120" y="540" width="260" height="110" rx="14" fill="#18181B" stroke="#3F3F46"/><text x="250" y="605">Next Gen Revenue Share</text>
+    <rect x="1020" y="540" width="260" height="110" rx="14" fill="#18181B" stroke="#3F3F46"/><text x="1150" y="605">SMS Packages + Add-ons</text>
+  </g>
+  <g stroke="#22D3EE" stroke-width="7" stroke-linecap="round">
+    <path d="M380 215 C470 215 470 350 530 350"/>
+    <path d="M1020 215 C930 215 930 350 870 350"/>
+    <path d="M380 595 C470 595 470 430 530 430"/>
+    <path d="M1020 595 C930 595 930 430 870 430"/>
+  </g>
+</svg>

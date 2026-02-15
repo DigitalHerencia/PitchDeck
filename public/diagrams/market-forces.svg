@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1400" height="800" viewBox="0 0 1400 800" fill="none">
+  <rect width="1400" height="800" fill="#09090B"/>
+  <text x="700" y="70" text-anchor="middle" fill="#E4E4E7" font-size="34" font-family="Inter, Arial">Market Forces Radar</text>
+  <circle cx="700" cy="430" r="250" stroke="#3F3F46" stroke-width="2"/>
+  <circle cx="700" cy="430" r="180" stroke="#3F3F46" stroke-width="2"/>
+  <circle cx="700" cy="430" r="110" stroke="#3F3F46" stroke-width="2"/>
+  <line x1="700" y1="180" x2="700" y2="680" stroke="#3F3F46"/>
+  <line x1="450" y1="430" x2="950" y2="430" stroke="#3F3F46"/>
+  <polygon points="700,200 910,430 700,610 500,430" fill="#0891B2" fill-opacity="0.35" stroke="#22D3EE" stroke-width="4"/>
+  <text x="700" y="165" text-anchor="middle" fill="#F4F4F5" font-size="24" font-family="Inter, Arial">Regulatory Barrier</text>
+  <text x="975" y="438" fill="#F4F4F5" font-size="24" font-family="Inter, Arial">Channel Reach</text>
+  <text x="700" y="715" text-anchor="middle" fill="#F4F4F5" font-size="24" font-family="Inter, Arial">Customer Urgency</text>
+  <text x="320" y="438" fill="#F4F4F5" font-size="24" font-family="Inter, Arial">Trust Equity</text>
+</svg>
