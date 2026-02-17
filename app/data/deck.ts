@@ -7,8 +7,6 @@ export type DeckSectionId =
   | 'funnel-model'
   | 'market-penetration'
   | 'role'
-  | 'responsibilities-kpis'
-  | 'compensation-model'
   | 'nda'
   | 'offer';
 
@@ -23,6 +21,7 @@ export interface HeroContent {
 
 export interface ProofFirstContent {
   title: string;
+  subtitle?: string;
   image?: string;
   imageAlt?: string;
   statements: string[];
@@ -133,6 +132,7 @@ export interface MarketPenetrationContent {
 
 export interface RoleContent {
   title: string;
+  subtitle: string;
   verticalContributions: {
     vertical: string;
     primaryRole: string;
@@ -229,8 +229,8 @@ function validateDeckContent(content: DeckContent): DeckContent {
     throw new Error('deckContent.revenueEngine.views must contain at least one view.');
   }
 
-  if (content.compensationModel.tiers.length === 0) {
-    throw new Error('deckContent.compensationModel.tiers must contain at least one tier.');
+  if (content.offer.terms.length === 0) {
+    throw new Error('deckContent.offer.terms must contain at least one offer term.');
   }
 
   return content;
@@ -241,91 +241,51 @@ const rawDeckContent = {
     'nda',
     'hero',
     'proof-first',
+    'brand-positioning',
     'brand-assets',
     'revenue-engine',
     'funnel-model',
-    'market-penetration',
     'role',
-    'responsibilities-kpis',
-    'compensation-model',
+    'market-penetration',
     'offer',
   ],
   hero: {
-    eyebrow: 'Portfolio Briefing',
-    title: 'Revenue Operations Partnership Overview',
+    eyebrow: 'Partnership Brief',
+    title: 'High-Friction Revenue Machines',
     subtitle:
-      'Review each slide in sequence to evaluate performance proof, operating model, partner responsibilities, and terms in under seven minutes.',
-    valueProps: [
-      'Follow the section order from proof to terms so every decision is made with full commercial context.',
-      'Use each heading to anchor discussion, then confirm the supporting metrics, operating detail, and ownership model.',
-      'Treat the economics and role slides as formal checkpoints before advancing to NDA and offer execution.',
-    ],
+      'Four operating brands. One repeatable model: capture demand, close cleanly, deliver reliably, and collect cash.',
+    valueProps: [],
   },
   proofFirst: {
-    title: 'What has already been accomplished',
+    title: 'What Has Already Been Accomplished',
+    subtitle:
+      'Proof is tied to miles, invoices, delivered work, and retained client demand across active operations.',
     statements: [
-      'The Bosque Ltd has completed 17,000+ regulated miles and generated $750k+ in transport activity, including $75,560.80 in paid invoices, with zero incidents.',
-      'Digital Herencia delivers high-impact growth systems, conversion-focused automation, and modern digital transformation for everyday businesses.',
-      'Next Gen Management is developing a creator-friendly platform designed to disrupt legacy talent operations through innovative recruitment, optimization, and monetization workflows.',
-      'Southwest Media Services has hundreds of satisfied clients, events delivered across the country, and $42,650 in invoices.',
+      'The Bosque Ltd: Completed 17,000+ regulated miles and generated $750k+ in transport activity, including $75,560.80 in paid invoices, with zero incidents.',
+      'Digital Herencia: Delivers high-impact growth systems, conversion-focused automation, and practical digital transformation for everyday businesses.',
+      'Next Gen Management: Building a creator-friendly platform to modernize legacy talent operations through smarter recruitment, optimization, and monetization workflows.',
+      'Southwest Media Services: Served hundreds of satisfied clients, delivered events nationwide, and generated $42,650 in invoices.',
     ],
   },
   brandPositioning: {
-    title: 'Economics: how each unit generates revenue',
+    title: 'Money Models by Brand',
     statements: [
-      'Bosque: B2B transport contracts priced by route, miles, and schedule complexity.',
-      'Digital Herencia: implementation sprints, monthly retainers, and expansion projects.',
-      'Next Gen: creator growth operations and performance-linked revenue share.',
-      'SMS: package media services, add-ons, and referral repeat bookings.',
+      'The Bosque Ltd: Collected revenue = trips and route volume x contracted rate + route expansion and service stacking.',
+      'Digital Herencia: Collected revenue = project contracts + monthly retainers + expansion automation scope.',
+      'Next Gen Management: Collected revenue = managed creator share + closed deals + intervention-driven lift.',
+      'Southwest Media Services: Collected revenue = booked packages + add-ons + repeat and referral bookings.',
     ],
   },
   brandAssets: {
-    title: 'Economics: how each unit generates revenue',
+    title: 'Brand Footprint and Context',
     subtitle:
-      'Bosque: B2B transport contracts priced by route, miles, and schedule complexity. Digital Herencia: implementation sprints, monthly retainers, and expansion projects. Next Gen: creator growth operations and performance-linked revenue share. SMS: package media services, add-ons, and referral repeat bookings.',
+      'Each profile reinforces market position, operating model, and primary revenue drivers.',
     entities: [
       {
-        name: 'Digital Herencia',
-        focus: 'Implementation sprints, monthly retainers, and expansion projects.',
-        screenshot:
-          'https://raw.githubusercontent.com/DigitalHerencia/SiempreNuevo/refs/heads/main/public/DigitalHerencia.jpeg',
-        liveSite: 'https://digitalherencia.vercel.app/',
-        repository: 'https://github.com/DigitalHerencia/DigitalHerencia',
-        socialLinks: [],
-      },
-      {
-        name: 'Next Gen Management Agency',
-        focus: 'Creator growth operations and performance-linked revenue share.',
-        screenshot: '/main-logo.png',
-        liveSite: 'https://nextgenmanagementagency.vercel.app/',
-        repository: 'https://github.com/DigitalHerencia/NextGenManagement',
-        socialLinks: [],
-      },
-      {
-        name: 'Southwest Media Services',
-        focus: 'Package media services, add-ons, and referral repeat bookings.',
-        screenshot:
-          'https://raw.githubusercontent.com/DigitalHerencia/PitchDeck/refs/heads/main/public/Grey.avif',
-        liveSite: 'https://southwestmediaservices.vercel.app/',
-        socialLinks: [
-          {
-            platform: 'Portfolio',
-            href: 'https://southwestmediaservices.weebly.com/',
-          },
-          {
-            platform: 'Scheduling tools',
-            href: 'https://southwestmediaservices.vercel.app/',
-          },
-          {
-            platform: 'Media asset',
-            href: 'https://southwestmediaservices.vercel.app/_next/image?url=%2FGrey.png&w=1080&q=75',
-          },
-        ],
-      },
-      {
         name: 'The Bosque Ltd',
-        focus: 'B2B transport contracts priced by route, miles, and schedule complexity.',
-        screenshot: '/Home-Page-Name.png',
+        focus:
+          'Regulated cannabis transport and delivery operation monetizing contracts, dispatch execution, and route expansion.',
+        screenshot: '/Artboard 3.png',
         liveSite: 'https://thebosquegroup.bigcartel.com/',
         socialLinks: [
           {
@@ -341,6 +301,43 @@ const rawDeckContent = {
             href: 'https://www.facebook.com/TheBosqueLTD',
           },
         ],
+      },
+      {
+        name: 'Southwest Media Services',
+        focus:
+          'Booking-based package service model monetizing core packages, add-ons, and referral-driven repeat bookings.',
+        screenshot:
+          'https://raw.githubusercontent.com/DigitalHerencia/PitchDeck/refs/heads/main/public/Grey.avif',
+        liveSite: 'https://southwestmediaservices.vercel.app/',
+        socialLinks: [
+          {
+            platform: 'Portfolio',
+            href: 'https://southwestmediaservices.weebly.com/',
+          },
+          {
+            platform: 'Scheduling tools',
+            href: 'https://southwestmediaservices.vercel.app/',
+          },
+        ],
+      },
+      {
+        name: 'Digital Herencia',
+        focus:
+          'Revenue-enablement studio focused on lead generation, implementation contracts, recurring retainers, and expansion work.',
+        screenshot:
+          'https://raw.githubusercontent.com/DigitalHerencia/SiempreNuevo/refs/heads/main/public/DigitalHerencia.jpeg',
+        liveSite: 'https://digitalherencia.vercel.app/',
+        repository: 'https://github.com/DigitalHerencia/DigitalHerencia',
+        socialLinks: [],
+      },
+      {
+        name: 'Next Gen Management',
+        focus:
+          'Creator management operation focused on recruiting, onboarding, retention, and performance-linked revenue share.',
+        screenshot: '/main-logo.png',
+        liveSite: 'https://nextgenmanagementagency.vercel.app/',
+        repository: 'https://github.com/DigitalHerencia/NextGenManagement',
+        socialLinks: [],
       },
     ],
   },
@@ -360,9 +357,9 @@ const rawDeckContent = {
     ],
   },
   revenueEngine: {
-    title: 'Customers, economics, and money flow by vertical',
+    title: 'Customer-to-Cash Sequence by Brand',
     subtitle:
-      'Each company has its own slide with a branded infographic of the full 4-step customer-to-cash sequence.',
+      'Each brand follows the same loop: acquire demand, qualify fit, deliver execution, collect cash, then expand.',
     steps: ['Step 1', 'Step 2', 'Step 3', 'Step 4'],
     views: [
       {
@@ -371,38 +368,39 @@ const rawDeckContent = {
         table: [
           {
             step: 'Step 1 · Acquire customer',
-            customer: 'Licensed operators submit transport requests for regulated routes.',
+            customer:
+              'Licensed operators and referrals submit transport demand for regulated routes.',
             economics:
-              'Pricing baseline is built from route distance, timing, and compliance handling.',
-            moneyFlow: 'Opportunity enters pipeline with scope and preliminary quote.',
+              'Route pricing is set by distance, schedule pressure, custody requirements, and compliance load.',
+            moneyFlow: 'Qualified route request enters pipeline with quote assumptions.',
             userContribution:
-              'Run outbound and referral outreach to secure qualified transport requests.',
+              'Prospect operators and surface route demand with buyer access and compliance fit.',
           },
           {
             step: 'Step 2 · Qualify scope',
             customer:
-              'Dispatcher and client finalize schedule, custody chain, and delivery constraints.',
-            economics: 'Final quote locks expected margin and operational capacity for the route.',
-            moneyFlow: 'Approved job converts from lead to confirmed revenue event.',
+              'Account lead and dispatcher align on route windows, custody chain, and delivery constraints.',
+            economics: 'Final terms lock contracted rate, margin expectations, and route capacity.',
+            moneyFlow: 'Signed scope converts lead into scheduled revenue event.',
             userContribution:
-              'Confirm route fit, set expectations, and close the transport agreement.',
+              'Run discovery, confirm route feasibility, and close transport terms cleanly.',
           },
           {
             step: 'Step 3 · Deliver work',
-            customer: 'Client receives compliant pickup, transfer, and delivery execution updates.',
-            economics: 'On-time delivery protects margin and increases repeat booking likelihood.',
-            moneyFlow: 'Service completion creates billable proof tied to signed delivery records.',
+            customer: 'Operator receives compliant pickup, transfer, and handoff updates in real time.',
+            economics: 'Incident-free, on-time execution protects margin and repeat-route potential.',
+            moneyFlow: 'Completed route with signed records creates invoice-ready proof.',
             userContribution:
-              'Coordinate handoffs to operations and keep the account aligned through delivery.',
+              'Coordinate dispatch handoffs and keep the account aligned during execution.',
           },
           {
             step: 'Step 4 · Collect payment',
             customer:
-              'Accounts team issues invoice and confirms payment terms with customer contacts.',
-            economics: 'Cash collection speed determines usable operating capital and growth pace.',
-            moneyFlow: 'Collected invoice closes loop and funds route expansion.',
+              'Accounts contacts receive invoice, documentation package, and payment follow-up.',
+            economics: 'Collection speed controls working capital and expansion capacity.',
+            moneyFlow: 'Collected invoice closes loop and funds route stacking or added lanes.',
             userContribution:
-              'Follow through on invoice status, remove blockers, and open expansion conversations.',
+              'Remove payment blockers fast and open expansion conversations on active accounts.',
           },
         ],
       },
@@ -412,35 +410,36 @@ const rawDeckContent = {
         table: [
           {
             step: 'Step 1 · Acquire customer',
-            customer: 'SMB owners with lead and follow-up bottlenecks request an audit call.',
-            economics: 'Lead source quality sets expected conversion and service delivery effort.',
-            moneyFlow: 'Pipeline starts with discovery call and problem inventory.',
+            customer: 'SMB operators with growth bottlenecks enter through outbound, referrals, or inbound.',
+            economics:
+              'Lead quality determines conversion speed, scope fit, and service delivery load.',
+            moneyFlow: 'Qualified demand enters discovery with revenue bottlenecks documented.',
             userContribution:
-              'Source qualified owners and position the audit around revenue bottlenecks.',
+              'Source ICP accounts and frame discovery around money leaks, not feature requests.',
           },
           {
             step: 'Step 2 · Qualify scope',
-            customer: 'Owner prioritizes implementation goals, constraints, and timeline.',
-            economics: 'Scope maps to setup fee, retainer tier, and expansion roadmap.',
-            moneyFlow: 'Signed proposal converts discovery into contracted work.',
+            customer: 'Owner aligns on business goal, urgency, scope boundaries, and buying readiness.',
+            economics: 'Scope maps to implementation contract, retainer tier, and expansion runway.',
+            moneyFlow: 'Signed SOW converts discovery into collected-revenue plan.',
             userContribution:
-              'Translate needs into a clear offer and close the engagement with realistic outcomes.',
+              'Translate bottlenecks into an offer with explicit milestones and close terms.',
           },
           {
             step: 'Step 3 · Deliver work',
-            customer: 'Team deploys automation, reporting, and follow-up workflows for daily use.',
-            economics: 'Adoption quality drives retention and add-on project opportunities.',
-            moneyFlow: 'Milestone delivery validates invoice readiness and ongoing retainer value.',
+            customer: 'Team ships acquisition workflows, automations, and operating tooling.',
+            economics: 'Delivery quality and adoption rate drive retention and expansion demand.',
+            moneyFlow: 'Milestone acceptance unlocks invoicing and recurring retainer continuity.',
             userContribution:
-              'Own client communication cadence and keep implementation milestones on track.',
+              'Own cadence, protect delivery quality, and keep outcomes visible every week.',
           },
           {
             step: 'Step 4 · Collect payment',
-            customer: 'Client pays setup invoice and transitions into recurring monthly billing.',
-            economics: 'Recurring collections stabilize cash flow and increase predictable margin.',
-            moneyFlow: 'Collected payments fund staffing and account expansion capacity.',
+            customer: 'Client clears implementation invoices and stays on recurring retainer billing.',
+            economics: 'Reliable collections stabilize margin and increase production capacity.',
+            moneyFlow: 'Collected revenue funds staffing, automation upgrades, and account expansion.',
             userContribution:
-              'Protect renewals, secure payment reliability, and identify expansion opportunities.',
+              'Protect renewals, enforce payment reliability, and convert wins into follow-on scope.',
           },
         ],
       },
@@ -450,88 +449,91 @@ const rawDeckContent = {
         table: [
           {
             step: 'Step 1 · Acquire customer',
-            customer: 'Creators enter pipeline through recruiter outreach and inbound screening.',
-            economics: 'Acquisition channel quality controls activation cost and initial fit.',
-            moneyFlow: 'Qualified applicants move into structured onboarding queue.',
-            userContribution: 'Drive recruiter output and ensure only high-fit creators advance.',
+            customer:
+              'Creators enter pipeline through Reddit, X, Telegram, and referral acquisition.',
+            economics: 'Channel quality determines activation cost, fit, and early retention odds.',
+            moneyFlow: 'Qualified creators move into onboarding queue with readiness scores.',
+            userContribution:
+              'Drive recruiter output and filter aggressively for fit, readiness, and upside.',
           },
           {
             step: 'Step 2 · Qualify scope',
-            customer: 'Manager and creator align on goals, channels, and operating standards.',
-            economics: 'Terms determine revenue share potential and required management effort.',
-            moneyFlow: 'Agreement activates managed growth plan and shared incentives.',
-            userContribution: 'Set economic expectations and close alignment on execution cadence.',
+            customer: 'Recruiter and manager align goals, terms, and execution standards with creator.',
+            economics:
+              'Agreement terms define revenue-share potential and required management intensity.',
+            moneyFlow: 'Signed onboarding terms activate managed creator revenue plan.',
+            userContribution:
+              'Close onboarding terms and set expectations on cadence, responsibilities, and payout logic.',
           },
           {
             step: 'Step 3 · Deliver work',
             customer:
-              'Managers execute growth workflows across acquisition and retention channels.',
-            economics:
-              'Consistent execution increases subscriber retention and average account value.',
-            moneyFlow: 'Performance period produces measurable earnings for payout cycles.',
+              'Management pod executes acquisition, retention, and monetization workflows weekly.',
+            economics: 'Execution consistency drives retention stability and account value growth.',
+            moneyFlow: 'Performance windows generate measurable earnings for settlement cycles.',
             userContribution:
-              'Monitor performance metrics and coach managers on retention-first execution.',
+              'Coach intervention quality and enforce operator-level weekly scorecard discipline.',
           },
           {
             step: 'Step 4 · Collect payment',
             customer:
-              'Revenue share distributions are reconciled and paid against verified performance.',
-            economics: 'Reliable payout timing strengthens trust and improves long-term retention.',
+              'Agency share is reconciled on verified performance and payout windows.',
+            economics: 'Accurate and timely settlements protect trust and long-term retention.',
             moneyFlow:
-              'Net collections recycle into recruiting, manager capacity, and growth channels.',
+              'Collected net share recycles into recruiter capacity, manager pods, and growth channels.',
             userContribution:
-              'Validate payout readiness and convert strong accounts into long-term partnerships.',
+              'Validate settlement data and convert stable accounts into higher-value management terms.',
           },
         ],
       },
       {
-        label: 'SMS',
-        companyName: 'SMS',
+        label: 'Southwest Media Services',
+        companyName: 'Southwest Media Services',
         table: [
           {
             step: 'Step 1 · Acquire customer',
-            customer:
-              'Media clients request packages through referrals, outreach, and local channels.',
-            economics: 'Package mix sets expected labor load and gross revenue per booking.',
-            moneyFlow: 'Lead intake captures preferred package and timeline.',
+            customer: 'Prospects submit inquiries for event and media deliverables.',
+            economics: 'Inquiry quality and package fit set booking value and margin profile.',
+            moneyFlow: 'Lead intake captures scope, timeline, budget, and package fit.',
             userContribution:
-              'Generate qualified demand and route clients to the best-fit package.',
+              'Qualify demand quickly and route each client to the right package path.',
           },
           {
             step: 'Step 2 · Qualify scope',
             customer:
-              'Client confirms deliverables, timeline, and add-ons before production starts.',
-            economics: 'Final scope sets invoice total and protects production margin.',
-            moneyFlow: 'Deposit or agreement confirmation secures production slot.',
+              'Client confirms deliverables, schedule, payment terms, and add-on options.',
+            economics: 'Final scope controls production load, add-on margin, and cash timing.',
+            moneyFlow: 'Deposit and signed terms lock booking and reserve production capacity.',
             userContribution:
-              'Close package terms cleanly and upsell add-ons that improve customer outcomes.',
+              'Close package terms and attach relevant add-ons at point of sale.',
           },
           {
             step: 'Step 3 · Deliver work',
             customer: 'Team produces and delivers contracted media assets to the client.',
-            economics: 'Delivery quality drives referrals and repeat package purchases.',
-            moneyFlow: 'Project acceptance triggers final invoicing and testimonial opportunities.',
+            economics: 'Delivery quality drives testimonials, referrals, and repeat-booking probability.',
+            moneyFlow: 'Accepted delivery triggers final invoice and post-project follow-up sequence.',
             userContribution:
-              'Manage handoff quality and keep communication tight through final delivery.',
+              'Protect handoff quality and keep communication tight through completion.',
           },
           {
             step: 'Step 4 · Collect payment',
-            customer: 'Client clears final balance and confirms satisfaction for future work.',
-            economics: 'Fast collections and repeat bookings increase monthly cash consistency.',
-            moneyFlow: 'Collected balances convert fulfilled work into cash and pipeline momentum.',
+            customer: 'Client clears final balance and receives repeat and referral follow-up.',
+            economics: 'Fast collections plus repeat conversion stabilize monthly cash flow.',
+            moneyFlow: 'Collected balances and repeat bookings recycle into new monthly pipeline.',
             userContribution:
-              'Ensure collection closure and activate referral follow-up immediately.',
+              'Close collections quickly and trigger repeat or referral offers while trust is high.',
           },
         ],
       },
     ],
   },
   funnelModel: {
-    title: 'Role clarity: daily execution sequence',
-    subtitle: 'Select a company to review role ownership, KPI scorecards, and the execution path.',
+    title: 'Execution Flow: Lead -> Close -> Deliver -> Expand',
+    subtitle:
+      'Each brand maps role ownership to measurable daily execution so growth does not depend on luck.',
     companies: [
       {
-        company: 'Bosque Ltd',
+        company: 'The Bosque Ltd',
         operatingFocus:
           'Regulated transport contracts, compliant dispatch, and recurring route growth.',
         roles: [
@@ -582,7 +584,7 @@ const rawDeckContent = {
         ],
       },
       {
-        company: 'Digital Herencia LLC',
+        company: 'Digital Herencia',
         operatingFocus:
           'Revenue enablement engagements that convert into retainers and expansion work.',
         roles: [
@@ -634,7 +636,7 @@ const rawDeckContent = {
         ],
       },
       {
-        company: 'Next Gen Management Co',
+        company: 'Next Gen Management',
         operatingFocus:
           'Creator recruitment, onboarding quality, and managed account revenue lift.',
         roles: [
@@ -686,21 +688,74 @@ const rawDeckContent = {
           },
         ],
       },
+      {
+        company: 'Southwest Media Services',
+        operatingFocus:
+          'Package bookings, delivery quality, and referral-driven repeat conversion in a service business.',
+        roles: [
+          {
+            role: 'Executive Account Manager',
+            objective:
+              'Convert qualified inquiries into booked packages, then expand each account through add-ons and repeat demand.',
+            responsibilities: [
+              'Qualify each inquiry on timeline, budget, and deliverable scope.',
+              'Close package terms with deposit/payment terms and defined add-on options.',
+              'Run post-delivery follow-up to capture repeat bookings and referrals.',
+            ],
+            kpis: [
+              'Qualified inquiry-to-booking conversion rate',
+              'Average booked package value',
+              'Add-on attachment rate',
+              '60-day repeat or referral conversion',
+            ],
+            executionPath: [
+              {
+                stage: '1. Intake',
+                owner: 'Executive Account Manager',
+                executionDetail:
+                  'Capture client request details, qualify budget fit, and set discovery call quickly.',
+                successSignal: 'Inquiry becomes qualified booking opportunity.',
+              },
+              {
+                stage: '2. Close',
+                owner: 'Executive Account Manager',
+                executionDetail:
+                  'Present package options, finalize scope, and secure payment terms.',
+                successSignal: 'Package is booked with deposit or confirmed payment plan.',
+              },
+              {
+                stage: '3. Delivery',
+                owner: 'Delivery Team + Account Manager',
+                executionDetail:
+                  'Execute project on schedule with clear communication and scope control.',
+                successSignal: 'Client accepts delivery without scope-breaking revisions.',
+              },
+              {
+                stage: '4. Repeat + Referral',
+                owner: 'Executive Account Manager',
+                executionDetail:
+                  'Collect final balance, request referral/testimonial, and present next best offer.',
+                successSignal: 'Repeat booking or referral opportunity enters active pipeline.',
+              },
+            ],
+          },
+        ],
+      },
     ],
   },
   marketPenetration: {
-    title: 'Role clarity: score each role on outcomes',
+    title: 'Performance Controls: Measure What Pays',
     bullets: [
-      'Lead generator: qualified lead volume, show rate, and accepted handoff ratio.',
-      'Account executive/recruiter: close rate, cycle time, and first invoice milestone.',
-      'Manager: retention, expansion, and weekly execution consistency.',
-      'Leadership: collected revenue, margin quality, channel efficiency, and repeatable vertical growth.',
+      'Lead generation: qualified volume, show rate, and accepted handoff quality.',
+      'Closing roles: close rate, cycle speed, and time to first collected payment.',
+      'Management roles: retention stability, expansion conversion, and SLA reliability.',
+      'Leadership: revenue quality, margin discipline, and repeatable playbook reuse.',
     ],
     leadSignals: [
-      'Show revenue proof before forecasts',
-      'Show operating reliability before scale claims',
-      'Require retention and expansion before commission multipliers',
-      'Reuse playbooks with role-specific KPIs',
+      'Validate demand quality before forecasting growth.',
+      'Prove operating reliability before adding capacity.',
+      'Pay upside on retention and expansion, not activity volume.',
+      'Standardize winning playbooks before adding headcount.',
     ],
     diagram: {
       title: 'Market forces model',
@@ -710,81 +765,84 @@ const rawDeckContent = {
     },
   },
   role: {
-    title: 'Role clarity: what each role owns',
+    title: 'Impact: Ownership by Brand',
+    subtitle:
+      'Ownership map by brand: primary commercial control, handoff boundary, and the win condition that must be protected.',
     verticalContributions: [
       {
-        vertical: 'Bosque (regulated logistics)',
+        vertical: 'The Bosque Ltd (regulated logistics)',
         primaryRole: 'Account Executive + Operator',
         ownership: [
-          'Qualify licensed operators and define route economics clearly before dispatch.',
-          'Coordinate compliant handoff from contract close to route execution.',
-          'Protect retention by solving scheduling issues before they impact collections.',
+          'Own account commercial terms and route economics before dispatch starts.',
+          'Keep custody/compliance handoff quality high enough to prevent delivery friction.',
+          'Escalate service risk early so collections and route continuity stay protected.',
         ],
-        handoff: 'Win condition: one closed route expands into recurring route volume.',
+        handoff: 'Win condition: one route converts into recurring contracted volume.',
       },
       {
         vertical: 'Digital Herencia (revenue systems)',
         primaryRole: 'Executive Account Manager',
         ownership: [
-          'Run discovery around lead-flow bottlenecks and close scoped engagements.',
-          'Translate client pain into implementation priorities with measurable milestones.',
-          'Drive retainer continuity through visible weekly progress and expansion planning.',
+          'Own scope clarity and payment discipline before delivery resources are committed.',
+          'Protect first-value milestones through weekly client decision alignment.',
+          'Drive expansion only where retained outcomes and margin quality are proven.',
         ],
-        handoff: 'Win condition: first project converts into multi-month retainer + expansion.',
+        handoff: 'Win condition: project delivery converts into stable retainer plus expansion scope.',
       },
       {
         vertical: 'Next Gen (creator management)',
         primaryRole: 'Recruiter + Manager',
         ownership: [
-          'Source creator candidates through Reddit, X, and Telegram with fit screening.',
-          'Close onboarding with clear earnings expectations and workflow commitments.',
-          'Increase creator retention by managing execution cadence and intervention speed.',
+          'Own creator quality threshold before signing so manager capacity is protected.',
+          'Protect onboarding accuracy so payouts, expectations, and workflow are aligned.',
+          'Escalate churn/earnings risks fast enough to preserve retention and yield.',
         ],
-        handoff: 'Win condition: onboarding quality compounds into retained net revenue.',
+        handoff: 'Win condition: onboarding quality compounds into retained managed revenue.',
       },
       {
-        vertical: 'SMS (package services)',
+        vertical: 'Southwest Media Services (package services)',
         primaryRole: 'Executive Account Manager',
         ownership: [
-          'Qualify inbound demand to match package tier and delivery timeline.',
-          'Close package scope with add-on opportunities defined at point of sale.',
-          'Capture repeat and referral demand through post-delivery follow-through.',
+          'Own booking terms quality so scope, payment timing, and margin stay clean.',
+          'Protect add-on positioning without sacrificing delivery reliability.',
+          'Control follow-up cadence that turns completed work into repeat/referral demand.',
         ],
         handoff: 'Win condition: booked package expands through add-ons and repeat business.',
       },
     ],
     closingSkills: [
-      'Explain economics in plain language',
-      'Qualify quickly and hand off cleanly',
-      'Protect margin, retention, and expansion in every deal',
-      'Execute reliably under operational constraints',
+      'Explain money flow in plain language.',
+      'Qualify quickly, close cleanly, and hand off without friction.',
+      'Protect retention and expansion without sacrificing margin discipline.',
+      'Execute consistently in high-friction operating conditions.',
     ],
   },
   responsibilitiesKpis: {
-    title: 'Compliance: enforce scorecard and controls',
+    title: 'Operating Governance: Scorecards and Controls',
     responsibilities: [
-      'Track every opportunity from source to close with named ownership.',
-      'Tie compensation triggers to collected revenue and verified retention milestones.',
-      'Document account health weekly: delivery quality, client sentiment, and expansion readiness.',
-      'Coach with role metrics before changing compensation terms.',
+      'Track every opportunity from source to close with named ownership and handoff timestamps.',
+      'Tie variable compensation only to collected revenue and verified retention performance.',
+      'Log account health weekly: delivery quality, risk flags, and expansion readiness.',
+      'Coach through role scorecards before changing pay plans or staffing levels.',
     ],
     scorecard: [
       {
-        company: 'Bosque',
-        role: 'Lead Generator',
-        kpi: 'Lead quality',
-        objective: 'Keep lead flow consistent while protecting close-team calendar quality.',
+        company: 'The Bosque Ltd',
+        role: 'Executive Account Manager',
+        kpi: 'Qualified pipeline quality',
+        objective:
+          'Maintain steady operator pipeline while protecting compliance fit and close-team time.',
         benchmarkContext:
-          'SaaS SDR teams commonly sustain ~50-60% show rates and ~60-70% opportunity acceptance according to industry benchmarking from Salesforce and Gong.',
+          'The Bosque Ltd baseline: demand only counts when operator fit, route need, and buyer access are verified.',
         tiers: [
           {
             level: 'Baseline (light effort)',
             effort: '3-4 hrs/week',
             timeCommitment: '30-45 min/day',
             metrics: [
-              '10-12 qualified leads/week',
-              'Show rate >= 58%',
-              'Lead acceptance by AE/recruiter >= 68%',
+              '8-12 qualified operator opportunities/week',
+              'Show rate >= 55%',
+              'Lead acceptance by closer or dispatcher >= 70%',
             ],
             checklist: [
               'Log source channel and vertical fit for every lead.',
@@ -797,9 +855,9 @@ const rawDeckContent = {
             effort: '6-8 hrs/week',
             timeCommitment: '60-90 min/day',
             metrics: [
-              '14-17 qualified leads/week',
-              'Show rate >= 65%',
-              'Lead acceptance by AE/recruiter >= 75%',
+              '12-16 qualified operator opportunities/week',
+              'Show rate >= 62%',
+              'Lead acceptance by closer or dispatcher >= 78%',
             ],
             checklist: [
               'Run two channel tests weekly (offer, hook, or audience segment).',
@@ -812,9 +870,9 @@ const rawDeckContent = {
             effort: '10-12 hrs/week',
             timeCommitment: '2+ hrs/day',
             metrics: [
-              '20-24 qualified leads/week',
-              'Show rate >= 72%',
-              'Lead acceptance by AE/recruiter >= 82%',
+              '18-22 qualified operator opportunities/week',
+              'Show rate >= 70%',
+              'Lead acceptance by closer or dispatcher >= 85%',
             ],
             checklist: [
               'Stand up referral loop with at least 2 partner sources.',
@@ -825,26 +883,27 @@ const rawDeckContent = {
         ],
       },
       {
-        company: 'FFJ',
-        role: 'Account Executive',
-        kpi: 'Close performance',
-        objective: 'Convert qualified opportunities quickly without discounting margin discipline.',
+        company: 'Next Gen',
+        role: 'Recruiter + Account Executive',
+        kpi: 'Recruit-to-sign performance',
+        objective:
+          'Convert qualified creators into signed, activation-ready accounts without lowering fit standards.',
         benchmarkContext:
-          'Mid-market B2B AEs often close ~20-30% of qualified pipeline with sales cycles near 1-2 months per HubSpot and Pavilion reports.',
+          'Next Gen baseline: channel volume only matters when creators activate quickly and enter managed workflow.',
         tiers: [
           {
             level: 'Baseline (light effort)',
             effort: '4-5 hrs/week',
             timeCommitment: '45-60 min/day',
             metrics: [
-              'Close rate >= 22%',
-              'Median time-to-close <= 30 days',
-              'First-value milestone hit >= 82%',
+              'Recruiter-to-sign conversion >= 22%',
+              'Median activation speed <= 14 days',
+              'First managed cycle launched >= 80%',
             ],
             checklist: [
-              'Respond to inbound qualified leads within same business day.',
-              'Run discovery checklist before sharing pricing.',
-              'Confirm onboarding owner before contract signature.',
+              'Respond to qualified creator leads in the same day.',
+              'Run readiness score before presenting onboarding terms.',
+              'Confirm manager pod ownership before signature.',
             ],
           },
           {
@@ -852,14 +911,14 @@ const rawDeckContent = {
             effort: '7-9 hrs/week',
             timeCommitment: '90 min/day',
             metrics: [
-              'Close rate >= 30%',
-              'Median time-to-close <= 21 days',
-              'First-value milestone hit >= 89%',
+              'Recruiter-to-sign conversion >= 30%',
+              'Median activation speed <= 10 days',
+              'First managed cycle launched >= 88%',
             ],
             checklist: [
-              'Use objection log and update rebuttals weekly.',
-              'Schedule next-step call before ending each sales conversation.',
-              'Review lost deals by reason code and adjust qualification.',
+              'Update objection patterns by channel every week.',
+              'Set next-step commitment before ending each qualification call.',
+              'Review non-sign reasons weekly and adjust screening criteria.',
             ],
           },
           {
@@ -867,14 +926,14 @@ const rawDeckContent = {
             effort: '12+ hrs/week',
             timeCommitment: '2-3 hrs/day',
             metrics: [
-              'Close rate >= 36%',
-              'Median time-to-close <= 14 days',
-              'First-value milestone hit >= 93%',
+              'Recruiter-to-sign conversion >= 36%',
+              'Median activation speed <= 7 days',
+              'First managed cycle launched >= 92%',
             ],
             checklist: [
-              'Run daily pipeline review with stage aging alerts.',
-              'Build role-specific close playbooks for top two verticals.',
-              'Shadow and coach one peer rep weekly to protect consistency.',
+              'Run daily recruiter pipeline review with stage aging alerts.',
+              'Codify top close scripts by creator profile segment.',
+              'Coach one recruiter weekly to protect quality and volume.',
             ],
           },
         ],
@@ -885,7 +944,7 @@ const rawDeckContent = {
         kpi: 'Retention quality',
         objective: 'Protect account stability through predictable onboarding and issue response.',
         benchmarkContext:
-          'Agency and services businesses commonly target 80-90% annual logo retention and first-response SLAs under one business day, per CustomerSuccess and Zendesk benchmark datasets.',
+          'Digital Herencia baseline: retention comes from predictable delivery, fast response loops, and visible weekly value.',
         tiers: [
           {
             level: 'Baseline (light effort)',
@@ -935,12 +994,12 @@ const rawDeckContent = {
         ],
       },
       {
-        company: 'SMS',
-        role: 'Manager',
-        kpi: 'Expansion output',
-        objective: 'Turn stable delivery into upsell, referral, and new route/project growth.',
+        company: 'Southwest Media Services',
+        role: 'Executive Account Manager',
+        kpi: 'Booking-to-expansion output',
+        objective: 'Turn completed bookings into add-ons, repeat projects, and referral-sourced revenue.',
         benchmarkContext:
-          'B2B services teams typically see 10-30% expansion win rates and referral participation around 40-70% in healthy books, based on Gainsight and SaaStr operating surveys.',
+          'Southwest Media Services baseline: delivery quality plus follow-up cadence should convert healthy accounts into repeat and referral demand.',
         tiers: [
           {
             level: 'Baseline (light effort)',
@@ -992,136 +1051,164 @@ const rawDeckContent = {
     ],
   },
   compensationModel: {
-    title: 'Economics: compensation by verified outcomes',
+    title: 'Compensation Framework: Paid on Collected Outcomes',
     subtitle:
-      'Each equity-ladder level has a tighter operating scope, explicit outcome gates, and realistic compensation bands indexed to collected revenue.',
+      'Rates align to the operations briefs: pay follows collected cash, retention quality, and expansion performance.',
     tiers: [
       {
-        tier: 'L1 — Contributor (0.00% to 0.25% equity pool eligibility)',
-        equityBand: 'Eligible for 0.00% to 0.25% advisory pool grant after 2 full quarters.',
-        revenueBand: 'Team collected revenue: $30k to $75k per month.',
+        tier: 'L1 - Acquisition and Closing',
+        equityBand:
+          'Milestone equity option begins after verified revenue thresholds by brand and role.',
+        revenueBand: 'Individual collected revenue contribution: early-stage ramp band.',
         promotionGate:
-          'Hit KPI scorecard for 90 days, maintain compliance accuracy, and clear weekly execution reviews.',
+          'Maintain qualified pipeline, close consistency, and clean handoff quality for 90 days.',
         roles: [
           {
-            role: 'Lead Generator',
-            base: '$2,800 to $3,600 / month',
-            variable: '$50 per qualified show + 2% of first collected invoice',
-            totalRange: '$3,500 to $5,200 / month',
-            outcomeGate: 'Minimum 35 qualified leads and >=70% show rate.',
+            role: 'The Bosque Ltd New Account Closer',
+            base: '$2,800 to $4,000 / month',
+            variable:
+              '12% of collected invoice revenue for first 6 months + 5% on incremental route expansion',
+            totalRange: '$4,000 to $8,500 / month',
+            outcomeGate:
+              'Hit operator qualification targets and first-invoice cycle benchmarks.',
           },
           {
-            role: 'Recruiter',
-            base: '$3,000 to $3,800 / month',
-            variable: '$250 per activated placement + 3% of month-one gross margin',
-            totalRange: '$4,000 to $6,400 / month',
-            outcomeGate: '4+ activated placements with <=15% first-30-day churn.',
+            role: 'Digital Herencia Executive Account Manager',
+            base: '$3,200 to $4,800 / month',
+            variable:
+              '20% of first contract collections + 15% retainer for first 6 months + 10% on expansion scope',
+            totalRange: '$5,000 to $12,500 / month',
+            outcomeGate:
+              'Meet close rate, first-value delivery, and 90-day retention scorecard.',
+          },
+          {
+            role: 'Next Gen Recruiter',
+            base: '$2,800 to $4,200 / month',
+            variable:
+              'Option A: 7% of creator earnings for first 6 months. Option B: fixed placement bonus + milestone kicker',
+            totalRange: '$4,000 to $11,000 / month',
+            outcomeGate:
+              'Maintain recruiter-to-sign conversion and activation speed targets.',
           },
         ],
       },
       {
-        tier: 'L2 — Operator (0.25% to 0.75% equity pool eligibility)',
+        tier: 'L2 - Retention and Management',
         equityBand:
-          'Eligible for 0.25% to 0.75% performance-based options grant with 12-month vesting cliff.',
-        revenueBand: 'Team collected revenue: $75k to $180k per month.',
+          'Performance-based equity option range increases after sustained retention and expansion output.',
+        revenueBand: 'Managed-book collected revenue: mid-stage scale band.',
         promotionGate:
-          'Sustain retained revenue for 2 consecutive quarters and document process leverage across at least 2 team members.',
+          'Hold retention stability and expansion conversion across two full quarters.',
         roles: [
           {
-            role: 'Account Executive',
-            base: '$4,000 to $5,500 / month',
-            variable: '6% of new collected revenue + 2% on retained book after month three',
-            totalRange: '$7,500 to $12,500 / month',
-            outcomeGate: '>=22% close rate and <=45-day average cycle to first payment.',
+            role: 'The Bosque Ltd Account Manager / Dispatch Lead',
+            base: '$4,000 to $5,800 / month',
+            variable: '6% on retained collected revenue + 5% on incremental route growth',
+            totalRange: '$6,500 to $12,000 / month',
+            outcomeGate:
+              'Maintain incident-free execution, retention, and route expansion benchmarks.',
           },
           {
-            role: 'Manager',
-            base: '$5,500 to $7,000 / month',
-            variable: '3% of team collected revenue + retention kicker up to $1,500',
-            totalRange: '$8,500 to $14,000 / month',
-            outcomeGate: '>=85% retention and weekly scorecard compliance across team.',
+            role: 'Next Gen Account Manager',
+            base: '$4,500 to $6,500 / month',
+            variable:
+              '15% of new net agency revenue for first 6 months + 5% ongoing retained revenue',
+            totalRange: '$7,500 to $15,000 / month',
+            outcomeGate:
+              'Hit intervention lift, creator retention, and payout-accuracy scorecard targets.',
+          },
+          {
+            role: 'Southwest Media Services Executive Account Manager',
+            base: '$3,800 to $5,200 / month',
+            variable:
+              '15% on collected package revenue + 20% on add-ons + 5% on repeat and referral bookings',
+            totalRange: '$6,000 to $13,500 / month',
+            outcomeGate:
+              'Maintain booking conversion, add-on attachment, and collection completion rates.',
           },
         ],
       },
       {
-        tier: 'L3 — Partner Track (0.75% to 2.00% equity pool eligibility)',
+        tier: 'L3 - Cross-Brand Operators',
         equityBand:
-          'Eligible for 0.75% to 2.00% partner-track options grant tied to board-approved milestones.',
-        revenueBand: 'Team collected revenue: $180k to $400k+ per month.',
+          'Partner-track option eligibility tied to board-approved milestones and proven playbook leverage.',
+        revenueBand: 'Cross-brand collected revenue ownership: advanced scale band.',
         promotionGate:
-          'Lead cross-vertical expansion, maintain margin discipline, and close succession-ready operating playbooks.',
+          'Lead repeatable playbooks across brands while holding margin, retention, and compliance controls.',
         roles: [
           {
-            role: 'Senior Manager / Regional Operator',
+            role: 'Senior Operator / Growth Lead',
             base: '$7,500 to $10,000 / month',
-            variable: '4% of regional collected revenue + 1% EBITDA kicker above target',
+            variable:
+              '4% of collected revenue under management + upside kicker on verified expansion targets',
             totalRange: '$13,000 to $25,000+ / month',
-            outcomeGate: '>=88% retention, >=20% YoY expansion, and positive contribution margin.',
+            outcomeGate:
+              'Sustain portfolio retention, positive contribution margin, and documented expansion growth.',
           },
         ],
       },
     ],
     disclaimers: [
-      'All commissions are paid on collected cash, not signed contract value.',
-      'Any chargebacks, compliance breaches, or churn inside guarantee windows are clawback-eligible.',
-      'Equity awards require signed plan documents, board approval, and time-based vesting.',
+      'All variable payouts are paid on collected cash, never signed contract value.',
+      'Chargebacks, compliance failures, or early churn windows are clawback-eligible.',
+      'Equity options require signed plan documents, board approval, and vesting terms.',
     ],
   },
   cta: {
-    title: 'If the role fit is clear, move to protected details and onboarding.',
-    subtitle: 'Sign NDA, validate role economics, and execute the offer path.',
-    primary: 'Proceed to NDA + offer flow',
-    secondary: 'Review role scorecards once more',
+    title: 'If fit is clear, move to protected details and onboarding.',
+    subtitle: 'Accept NDA, review terms, and confirm launch responsibilities.',
+    primary: 'Continue to NDA and terms',
+    secondary: 'Review scorecards again',
   },
   nda: {
-    title: 'Confidentiality covenant acknowledgment',
+    title: 'Confidentiality Gate: Required Before Protected Details',
     subtitle:
-      'Review and accept these confidentiality terms before any non-public information is disclosed in this deck.',
+      'This deck contains non-public operating, compensation, and partnership material. Accept terms to continue.',
     statement: [
-      'All materials beyond this section are designated Confidential Information and are provided solely for evaluating a potential business relationship. No license, assignment, or transfer of intellectual property is granted by disclosure.',
-      'Recipient must hold Confidential Information in strict confidence, apply commercially reasonable safeguards, and refrain from reproducing, distributing, or using the information for any competitive, personal, or unauthorized purpose.',
-      'Confidentiality duties commence upon acceptance, remain in effect throughout all discussions, and survive termination of negotiations. If these terms are not accepted, access to protected sections is prohibited.',
+      'All protected sections are Confidential Information shared only to evaluate a potential partnership. No IP transfer, license, or assignment is implied by access.',
+      'Recipient must keep materials private and may not copy, distribute, or use them for competitive or unauthorized purposes.',
+      'Confidentiality obligations begin at acceptance and survive the end of discussions. If terms are not accepted, review must stop at this section.',
     ],
     acknowledgmentLabel:
-      'I have reviewed and accept these confidentiality obligations, and I understand acceptance is required to continue.',
+      'I accept these confidentiality obligations and understand acceptance is required to continue.',
   },
   offer: {
-    title: 'Offer summary: terms, expectations, and onboarding timeline',
+    title: 'Offer Terms: Scope, Accountability, and Start Plan',
     subtitle:
-      'Below is a plain-language summary of the proposed offer package so both parties can align on scope, compensation mechanics, and operating expectations before documents are finalized.',
+      'This summary aligns role ownership, payout mechanics, and launch cadence before final documents.',
     terms: [
       {
         category: 'Role scope',
         details:
-          'Own prospecting, pipeline progression, and closed-won handoff across assigned accounts using the weekly KPI scorecard as the operating baseline.',
+          'Own prospecting, pipeline progression, close quality, and clean handoff using the weekly scorecard as operating truth.',
       },
       {
         category: 'Compensation model',
         details:
-          'Compensation follows the base + variable framework shown in this deck, with variable payouts tied to collected revenue and retention-qualified performance windows.',
+          'Base plus variable compensation is paid on collected cash and verified retention or expansion outcomes.',
       },
       {
         category: 'Performance expectations',
         details:
-          'Maintain forecast accuracy, documented activity quality, and conversion discipline required to sustain payout eligibility and advancement tracks.',
+          'Maintain lead quality, close discipline, and service reliability required to preserve payout eligibility.',
       },
       {
         category: 'Operating cadence',
         details:
-          'Participate in weekly scorecard reviews, monthly pipeline planning, and cross-functional handoff reviews with documented follow-through.',
+          'Participate in weekly scorecard review, monthly pipeline planning, and cross-team handoff audits.',
       },
       {
         category: 'Compliance & confidentiality',
         details:
-          'Adhere to NDA obligations, customer data handling standards, and company communication policies across all channels and systems.',
+          'Follow NDA obligations, data-handling controls, and communication standards across all channels.',
       },
       {
         category: 'Start timeline',
         details:
-          'Target onboarding begins within 5-10 business days after mutual alignment, with first 30-day priorities agreed before kickoff.',
+          'Target onboarding starts within 5-10 business days after alignment, with 30-day priorities confirmed before kickoff.',
       },
     ],
-    ctaLabel: 'Interested in moving forward? Reach out to begin next-step conversations.',
+    ctaLabel: 'If this structure matches your goals, reach out to schedule final alignment and onboarding.',
   },
 } satisfies DeckContent;
 

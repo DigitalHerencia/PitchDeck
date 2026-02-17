@@ -1,16 +1,11 @@
-import type { ResponsibilitiesKpisContent, RoleContent } from '@/app/data/deck';
+import { AnimatedHeading } from '@/app/components/deck/AnimatedHeading';
+import type { RoleContent } from '@/app/data/deck';
 
-export function RoleBreakdown({
-  role,
-  responsibilitiesKpis,
-}: {
-  role: RoleContent;
-  responsibilitiesKpis: ResponsibilitiesKpisContent;
-}) {
+export function RoleBreakdown({ role }: { role: RoleContent }) {
   return (
     <div className="grid gap-4">
       <article className="rounded-2xl border border-zinc-800 bg-zinc-950/60 p-5">
-        <h2 className="text-2xl font-semibold tracking-tight text-zinc-100">{role.title}</h2>
+        <AnimatedHeading eyebrow="Roles" title={role.title} subtitle={role.subtitle} />
 
         <div className="mt-5 grid gap-3 md:grid-cols-2">
           {role.verticalContributions.map((entry) => (
@@ -45,20 +40,6 @@ export function RoleBreakdown({
             <div
               key={item}
               className="rounded-lg border border-zinc-700/80 bg-zinc-900/70 px-3 py-2 text-sm text-zinc-200"
-            >
-              {item}
-            </div>
-          ))}
-        </div>
-      </article>
-
-      <article className="rounded-2xl border border-zinc-800 bg-zinc-950/60 p-5">
-        <h3 className="text-xl font-semibold text-zinc-100">{responsibilitiesKpis.title}</h3>
-        <div className="mt-3 grid gap-2">
-          {responsibilitiesKpis.responsibilities.map((item) => (
-            <div
-              key={item}
-              className="rounded-lg border border-zinc-700/80 bg-zinc-900/70 px-3 py-2 text-sm text-zinc-300"
             >
               {item}
             </div>

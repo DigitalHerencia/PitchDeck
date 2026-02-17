@@ -25,10 +25,9 @@ const sectionBackgrounds: Record<string, string> = {
   'funnel-model': 'var(--bg-funnel)',
   'market-penetration': 'var(--bg-market)',
   role: 'var(--bg-role)',
-  'responsibilities-kpis': 'var(--bg-kpis)',
-  'compensation-model': 'var(--bg-compensation)',
   nda: 'var(--bg-tech)',
   offer: 'var(--bg-tech)',
+  close: 'var(--bg-hero)',
 };
 
 export function DeckShell({ sections }: DeckShellProps) {
@@ -69,11 +68,27 @@ export function DeckShell({ sections }: DeckShellProps) {
 
       const target = event.currentTarget;
       rafRef.current = window.requestAnimationFrame(() => {
-        const nextIndex = Math.round(target.scrollTop / target.clientHeight);
+        const sectionNodes = Array.from(target.querySelectorAll<HTMLElement>('.deck-section'));
+        if (sectionNodes.length === 0) {
+          rafRef.current = null;
+          return;
+        }
+
+        const viewportAnchor = target.scrollTop + target.clientHeight * 0.35;
+        let nextIndex = 0;
+
+        for (let index = 0; index < sectionNodes.length; index += 1) {
+          if (sectionNodes[index].offsetTop <= viewportAnchor) {
+            nextIndex = index;
+            continue;
+          }
+          break;
+        }
+
         const clamped = Math.max(0, Math.min(nextIndex, maxUnlockedIndex));
 
-        if (nextIndex > maxUnlockedIndex) {
-          target.scrollTo({ top: maxUnlockedIndex * target.clientHeight, behavior: 'auto' });
+        if (nextIndex > maxUnlockedIndex && sectionNodes[maxUnlockedIndex]) {
+          target.scrollTo({ top: sectionNodes[maxUnlockedIndex].offsetTop, behavior: 'auto' });
         }
 
         setActiveIndex((previous) => (previous === clamped ? previous : clamped));
@@ -110,7 +125,7 @@ export function DeckShell({ sections }: DeckShellProps) {
         className="deck-scroll h-dvh snap-y snap-mandatory overflow-y-auto"
         onScroll={handleScroll}
         onKeyDown={handleKeyDown}
-        aria-label="Compensation deck sections"
+        aria-label="Portfolio deck sections"
         aria-describedby="deck-lock-status"
         tabIndex={0}
       >
@@ -120,19 +135,6 @@ export function DeckShell({ sections }: DeckShellProps) {
       </main>
 
       <div className="pointer-events-none absolute inset-x-4 bottom-[max(1rem,env(safe-area-inset-bottom))] z-30">
-        <div className="mb-2 flex items-center justify-between text-[10px] uppercase tracking-[0.2em] text-zinc-300">
-          <motion.span
-            animate={reducedMotion ? undefined : { y: [0, -2, 0] }}
-            transition={
-              reducedMotion
-                ? { duration: 0 }
-                : { repeat: Number.POSITIVE_INFINITY, duration: 1.4, ease: motionTokens.easing }
-            }
-          >
-            {ndaAccepted || ndaSectionIndex === -1 ? 'Swipe up' : 'NDA required to continue'}
-          </motion.span>
-          <span>{sections[activeIndex]?.label}</span>
-        </div>
         <p id="deck-lock-status" className="mb-2 text-xs text-zinc-300" aria-live="polite">
           {ndaAccepted || ndaSectionIndex === -1
             ? 'NDA accepted. All sections are available.'
@@ -140,7 +142,7 @@ export function DeckShell({ sections }: DeckShellProps) {
         </p>
         <div className="h-2 overflow-hidden rounded-full border border-zinc-700 bg-zinc-900/90 backdrop-blur">
           <motion.div
-            className="h-full rounded-full bg-gradient-to-r from-fuchsia-400 via-violet-400 to-cyan-300"
+            className="h-full rounded-full bg-linear-to-r from-fuchsia-400 via-violet-400 to-cyan-300"
             animate={{ width: progressWidth }}
             transition={
               reducedMotion

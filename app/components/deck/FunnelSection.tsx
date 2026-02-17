@@ -2,6 +2,7 @@
 
 import { useMemo, useState } from 'react';
 import { motion, useReducedMotion } from 'framer-motion';
+import { AnimatedHeading } from '@/app/components/deck/AnimatedHeading';
 import type { CompanyRoleModel, FunnelModelContent } from '@/app/data/deck';
 import { motionTokens } from '@/app/lib/motion';
 
@@ -22,43 +23,46 @@ export function FunnelSection({ content }: { content: FunnelModelContent }) {
       selectedCompany.roles.find((role) => role.role === activeRole) ?? selectedCompany.roles[0],
     [activeRole, selectedCompany.roles],
   );
+  const activeCompanyIndex = content.companies.findIndex(
+    (company) => company.company === selectedCompany.company,
+  );
 
   return (
     <div>
-      <div className="space-y-3">
-        <h2 className="text-3xl font-semibold tracking-tight">{content.title}</h2>
-        <p className="text-zinc-300">{content.subtitle}</p>
-      </div>
+      <AnimatedHeading eyebrow="Execution" title={content.title} subtitle={content.subtitle} />
 
-      <div
-        className="mt-6 flex flex-wrap gap-2"
-        role="tablist"
-        aria-label="Company execution views"
-      >
-        {content.companies.map((company) => {
-          const isActive = company.company === selectedCompany.company;
+      <div className="mt-5 rounded-2xl border border-zinc-800/80 bg-zinc-950/50 p-3">
+        <div className="flex justify-center" role="tablist" aria-label="Company execution views">
+          <div className="flex flex-wrap justify-center gap-2">
+            {content.companies.map((company) => {
+              const isActive = company.company === selectedCompany.company;
 
-          return (
-            <button
-              key={company.company}
-              type="button"
-              role="tab"
-              aria-selected={isActive}
-              aria-controls={`company-panel-${company.company}`}
-              onClick={() => {
-                setActiveCompany(company.company);
-                setActiveRole(company.roles[0].role);
-              }}
-              className={`rounded-full px-4 py-2 text-sm font-medium transition focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cyan-300 ${
-                isActive
-                  ? 'bg-cyan-300 text-black'
-                  : 'border border-zinc-700 bg-zinc-950/70 text-zinc-200 hover:border-fuchsia-300/50'
-              }`}
-            >
-              {company.company}
-            </button>
-          );
-        })}
+              return (
+                <button
+                  key={company.company}
+                  type="button"
+                  role="tab"
+                  aria-selected={isActive}
+                  aria-controls={`company-panel-${company.company}`}
+                  onClick={() => {
+                    setActiveCompany(company.company);
+                    setActiveRole(company.roles[0].role);
+                  }}
+                  className={`min-h-11 rounded-full border px-4 py-2 text-sm transition focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cyan-300 ${
+                    isActive
+                      ? 'border-cyan-300/80 bg-cyan-300/20 text-cyan-100'
+                      : 'border-zinc-700 bg-zinc-950/40 text-zinc-200 hover:border-cyan-300/50'
+                  }`}
+                >
+                  {company.company}
+                </button>
+              );
+            })}
+          </div>
+        </div>
+        <p className="mt-2 text-center text-xs uppercase tracking-wide text-zinc-400">
+          View {activeCompanyIndex + 1} of {content.companies.length}
+        </p>
       </div>
 
       <article
@@ -69,27 +73,30 @@ export function FunnelSection({ content }: { content: FunnelModelContent }) {
         <p className="text-sm text-cyan-200">Operating focus</p>
         <p className="mt-1 text-sm text-zinc-200">{selectedCompany.operatingFocus}</p>
 
-        <div className="mt-4 flex flex-wrap gap-2" role="tablist" aria-label="Role execution views">
-          {selectedCompany.roles.map((role) => {
-            const isRoleActive = role.role === selectedRole.role;
+        <div className="mt-4 rounded-xl border border-zinc-700/80 bg-zinc-900/50 p-3">
+          <p className="text-xs uppercase tracking-[0.14em] text-zinc-400">Role View</p>
+          <div className="mt-2 flex flex-wrap gap-2" role="tablist" aria-label="Role execution views">
+            {selectedCompany.roles.map((role) => {
+              const isRoleActive = role.role === selectedRole.role;
 
-            return (
-              <button
-                key={role.role}
-                type="button"
-                role="tab"
-                aria-selected={isRoleActive}
-                onClick={() => setActiveRole(role.role)}
-                className={`rounded-full px-3 py-1.5 text-xs font-medium transition focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cyan-300 ${
-                  isRoleActive
-                    ? 'bg-fuchsia-300 text-black'
-                    : 'border border-zinc-700 bg-zinc-950/80 text-zinc-200 hover:border-cyan-300/50'
-                }`}
-              >
-                {role.role}
-              </button>
-            );
-          })}
+              return (
+                <button
+                  key={role.role}
+                  type="button"
+                  role="tab"
+                  aria-selected={isRoleActive}
+                  onClick={() => setActiveRole(role.role)}
+                  className={`min-h-11 rounded-full border px-4 py-2 text-sm transition focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cyan-300 ${
+                    isRoleActive
+                      ? 'border-cyan-300/80 bg-cyan-300/20 text-cyan-100'
+                      : 'border-zinc-700 bg-zinc-950/40 text-zinc-200 hover:border-cyan-300/50'
+                  }`}
+                >
+                  {role.role}
+                </button>
+              );
+            })}
+          </div>
         </div>
       </article>
 
@@ -98,18 +105,9 @@ export function FunnelSection({ content }: { content: FunnelModelContent }) {
           <p className="text-sm text-fuchsia-200">Role objective</p>
           <p className="mt-1 text-sm text-zinc-100">{selectedRole.objective}</p>
 
-          <div className="mt-4 grid gap-2">
-            {selectedRole.responsibilities.map((responsibility) => (
-              <div
-                key={responsibility}
-                className="rounded-lg border border-zinc-700/80 bg-zinc-900/70 px-3 py-2 text-sm text-zinc-200"
-              >
-                {responsibility}
-              </div>
-            ))}
-          </div>
+          <p className="mt-4 text-xs uppercase tracking-[0.16em] text-zinc-400">Execution KPIs</p>
 
-          <div className="mt-4 grid gap-2 sm:grid-cols-2">
+          <div className="mt-2 grid gap-2 sm:grid-cols-2">
             {selectedRole.kpis.map((kpi) => (
               <div
                 key={kpi}

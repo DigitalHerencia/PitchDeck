@@ -1,6 +1,7 @@
 'use client';
 
 import { motion } from 'framer-motion';
+import { AnimatedHeading } from '@/app/components/deck/AnimatedHeading';
 
 interface ProofContent {
   title: string;
@@ -10,7 +11,7 @@ interface ProofContent {
 export function ProofWall({ content }: { content: ProofContent }) {
   return (
     <div>
-      <h2 className="text-3xl font-semibold tracking-tight">{content.title}</h2>
+      <AnimatedHeading eyebrow="Proof" title={content.title} />
       <div className="mt-6 grid gap-3 sm:grid-cols-2">
         {content.projects.map((project, index) => (
           <motion.article

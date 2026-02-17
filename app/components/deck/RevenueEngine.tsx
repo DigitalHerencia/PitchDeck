@@ -1,20 +1,10 @@
 'use client';
 
-import Image from 'next/image';
 import { useState } from 'react';
 import { motion, useReducedMotion } from 'framer-motion';
+import { AnimatedHeading } from '@/app/components/deck/AnimatedHeading';
 import type { RevenueEngineContent } from '@/app/data/deck';
 import { motionTokens } from '@/app/lib/motion';
-
-const logoByCompany: Record<string, { src: string; alt: string }> = {
-  SMS: { src: '/Grey.avif', alt: 'SMS logo' },
-  'The Bosque Ltd': { src: '/Artboard 3.png', alt: 'The Bosque Ltd logo' },
-  'Next Gen Management': { src: '/main-logo.png', alt: 'Next Gen logo' },
-  'Digital Herencia': {
-    src: '/branding/digitalherencia.svg',
-    alt: 'Digital Herencia logo',
-  },
-};
 
 export function RevenueEngine({ content }: { content: RevenueEngineContent }) {
   const [selectedView, setSelectedView] = useState(content.views[0].label);
@@ -24,38 +14,37 @@ export function RevenueEngine({ content }: { content: RevenueEngineContent }) {
 
   return (
     <div>
-      <h2 className="text-3xl font-semibold tracking-tight text-zinc-100">{content.title}</h2>
-      <p className="mt-3 max-w-3xl text-sm text-zinc-300">{content.subtitle}</p>
+      <AnimatedHeading eyebrow="Customers" title={content.title} subtitle={content.subtitle} />
 
-      <div
-        className="mt-5 flex flex-wrap items-center gap-2"
-        role="tablist"
-        aria-label="Company slides"
-      >
-        {content.views.map((view) => {
-          const isActive = selectedView === view.label;
-          return (
-            <button
-              key={view.label}
-              id={`view-${view.label}`}
-              type="button"
-              role="tab"
-              aria-selected={isActive}
-              aria-controls="vertical-infographic"
-              onClick={() => setSelectedView(view.label)}
-              className={`min-h-11 rounded-full border px-4 py-2 text-sm transition focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cyan-300 ${
-                isActive
-                  ? 'border-cyan-300/80 bg-cyan-300/20 text-cyan-100'
-                  : 'border-zinc-700 bg-zinc-950/40 text-zinc-200 hover:border-cyan-300/50'
-              }`}
-            >
-              {view.label}
-            </button>
-          );
-        })}
-        <span className="ml-auto text-xs uppercase tracking-wide text-zinc-400">
+      <div className="mt-5 rounded-2xl border border-zinc-800/80 bg-zinc-950/50 p-3">
+        <div className="flex justify-center" role="tablist" aria-label="Company slides">
+          <div className="flex flex-wrap justify-center gap-2">
+            {content.views.map((view) => {
+              const isActive = selectedView === view.label;
+              return (
+                <button
+                  key={view.label}
+                  id={`view-${view.label}`}
+                  type="button"
+                  role="tab"
+                  aria-selected={isActive}
+                  aria-controls="vertical-infographic"
+                  onClick={() => setSelectedView(view.label)}
+                  className={`min-h-11 rounded-full border px-4 py-2 text-sm transition focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cyan-300 ${
+                    isActive
+                      ? 'border-cyan-300/80 bg-cyan-300/20 text-cyan-100'
+                      : 'border-zinc-700 bg-zinc-950/40 text-zinc-200 hover:border-cyan-300/50'
+                  }`}
+                >
+                  {view.label}
+                </button>
+              );
+            })}
+          </div>
+        </div>
+        <p className="mt-2 text-center text-xs uppercase tracking-wide text-zinc-400">
           Slide {activeIndex + 1} of {content.views.length}
-        </span>
+        </p>
       </div>
 
       <motion.div
@@ -70,26 +59,15 @@ export function RevenueEngine({ content }: { content: RevenueEngineContent }) {
             ? { duration: 0 }
             : { duration: motionTokens.fast, ease: motionTokens.easing }
         }
-        className="mt-5 overflow-hidden rounded-3xl border border-zinc-800 bg-gradient-to-b from-zinc-950 to-zinc-900/80"
+        className="mt-5 overflow-hidden rounded-3xl border border-zinc-800 bg-linear-to-b from-zinc-950 to-zinc-900/80"
       >
-        <div className="flex flex-col gap-4 border-b border-zinc-800 bg-zinc-900/50 px-5 py-4 md:flex-row md:items-center md:justify-between">
+        <div className="border-b border-zinc-800 bg-zinc-900/50 px-5 py-4">
           <div>
             <h3 className="text-lg font-semibold text-cyan-200">{activeView.companyName}</h3>
             <p className="mt-1 text-xs text-zinc-400">
               Customers → economics → money flow mapped across four operating stages.
             </p>
           </div>
-          {logoByCompany[activeView.companyName] ? (
-            <div className="relative h-14 w-36 overflow-hidden rounded-xl border border-zinc-700 bg-zinc-950 p-1">
-              <Image
-                src={logoByCompany[activeView.companyName].src}
-                alt={logoByCompany[activeView.companyName].alt}
-                fill
-                className="object-contain"
-                unoptimized
-              />
-            </div>
-          ) : null}
         </div>
 
         <div className="grid gap-4 p-5 lg:grid-cols-4">

@@ -2,7 +2,7 @@
 
 import Image from 'next/image';
 import Link from 'next/link';
-import dynamic from 'next/dynamic';
+import { Facebook, Instagram, Mail } from 'lucide-react';
 import { AnimatedHeading } from '@/app/components/deck/AnimatedHeading';
 import { DeckShell } from '@/app/components/deck/DeckShell';
 import { FunnelSection } from '@/app/components/deck/FunnelSection';
@@ -11,13 +11,6 @@ import { RevenueEngine } from '@/app/components/deck/RevenueEngine';
 import { Section } from '@/app/components/deck/Section';
 import type { DeckSectionId, NdaContent, OfferExplanationContent } from '@/app/data/deck';
 import { deckContent } from '@/app/data/deck';
-
-const CompensationModel = dynamic(
-  () => import('@/app/components/deck/CompensationModel').then((mod) => mod.CompensationModel),
-  {
-    loading: () => <div className="h-40 animate-pulse rounded-2xl bg-zinc-900/60" />,
-  },
-);
 
 function NdaSection({
   content,
@@ -32,7 +25,7 @@ function NdaSection({
 }) {
   return (
     <Section id={id} key={id}>
-      <AnimatedHeading title={content.title} subtitle={content.subtitle} />
+      <AnimatedHeading eyebrow="NDA" title={content.title} subtitle={content.subtitle} />
       <div className="mt-5 space-y-4 rounded-2xl border border-zinc-800 bg-zinc-950/60 p-5 text-sm leading-6 text-zinc-200">
         {content.statement.map((paragraph) => (
           <p key={paragraph}>{paragraph}</p>
@@ -55,7 +48,7 @@ function NdaSection({
             }}
             disabled={ndaAccepted}
             aria-describedby="nda-gate-description"
-            className="mt-0.5 h-4 w-4 rounded border-zinc-500 bg-zinc-900 text-[var(--accent)] focus:ring-cyan-300 disabled:cursor-not-allowed"
+            className="mt-0.5 h-4 w-4 rounded border-zinc-500 bg-zinc-900 text-(--accent) focus:ring-cyan-300 disabled:cursor-not-allowed"
           />
           <span>{content.acknowledgmentLabel}</span>
         </label>
@@ -71,30 +64,108 @@ function OfferExplanationSection({
   content: OfferExplanationContent;
   id: string;
 }) {
+  const hasTerms = content.terms.length > 0;
+
   return (
-    <Section id={id} key={id}>
-      <AnimatedHeading title={content.title} subtitle={content.subtitle} />
-      <div className="mt-6 overflow-hidden rounded-2xl border border-zinc-800 bg-zinc-950/60">
-        <table className="min-w-full text-left text-sm">
-          <thead className="bg-zinc-900/90 text-zinc-200">
-            <tr>
-              <th className="px-4 py-3 font-semibold">Offer area</th>
-              <th className="px-4 py-3 font-semibold">Summary terms</th>
-            </tr>
-          </thead>
-          <tbody>
-            {content.terms.map((term) => (
-              <tr key={term.category} className="border-t border-zinc-800 text-zinc-300">
-                <td className="px-4 py-3 align-top font-medium text-cyan-200">{term.category}</td>
-                <td className="px-4 py-3">{term.details}</td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
+    <Section id={id} key={id} className="items-start pb-32">
+      <AnimatedHeading eyebrow="Offer" title={content.title} subtitle={content.subtitle} />
+      {hasTerms ? (
+        <div className="mt-6 grid gap-3 sm:grid-cols-2">
+          {content.terms.map((term, index) => (
+            <article
+              key={term.category}
+              className="rounded-2xl border border-zinc-800 bg-zinc-950/60 p-4"
+            >
+              <p className="text-xs uppercase tracking-[0.16em] text-zinc-400">Term {index + 1}</p>
+              <h3 className="mt-2 text-sm font-semibold text-cyan-200">{term.category}</h3>
+              <p className="mt-2 text-sm leading-6 text-zinc-300">{term.details}</p>
+            </article>
+          ))}
+        </div>
+      ) : (
+        <article className="mt-6 rounded-2xl border border-amber-300/30 bg-amber-400/10 p-4 text-sm text-amber-100">
+          Offer terms are missing. Add entries in <code>deckContent.offer.terms</code>.
+        </article>
+      )}
+      <div className="mt-5 rounded-2xl border border-fuchsia-300/40 bg-fuchsia-300/5 p-4">
+        <p className="text-xs uppercase tracking-[0.16em] text-fuchsia-200">Next Step</p>
+        <p className="mt-2 text-sm text-zinc-100">{content.ctaLabel}</p>
       </div>
-      <div className="mt-5 rounded-2xl border border-fuchsia-300/40 bg-fuchsia-300/5 p-4 text-zinc-100">
-        {content.ctaLabel}
-      </div>
+    </Section>
+  );
+}
+
+function ClosingSection({ id }: { id: string }) {
+  return (
+    <Section id={id} key={id} className="items-start pb-32">
+      <article className="relative overflow-hidden rounded-3xl border border-zinc-700 bg-zinc-950/70 p-6 sm:p-10">
+        <div
+          aria-hidden
+          className="pointer-events-none absolute -left-20 -top-20 h-64 w-64 rounded-full bg-cyan-400/20 blur-3xl"
+        />
+        <div
+          aria-hidden
+          className="pointer-events-none absolute -bottom-24 -right-16 h-72 w-72 rounded-full bg-fuchsia-400/20 blur-3xl"
+        />
+
+        <AnimatedHeading
+          eyebrow="Closing"
+          title="Thank You For Reviewing The Pitch"
+          subtitle="This pitch shows one revenue system across four brands: validated execution, clear role ownership, cash-first operating models, and practical controls for scalable growth."
+          className="relative max-w-3xl"
+          level="h1"
+        />
+
+        <div className="relative mt-6 grid gap-3 sm:grid-cols-3">
+          <article className="rounded-2xl border border-zinc-700/80 bg-zinc-900/75 p-4 text-sm text-zinc-200">
+            Real operations, not theory.
+          </article>
+          <article className="rounded-2xl border border-zinc-700/80 bg-zinc-900/75 p-4 text-sm text-zinc-200">
+            Pay tied to collected outcomes.
+          </article>
+          <article className="rounded-2xl border border-zinc-700/80 bg-zinc-900/75 p-4 text-sm text-zinc-200">
+            Growth driven by people, routes, and deals.
+          </article>
+        </div>
+
+        <div className="relative mt-6 rounded-2xl border border-cyan-300/30 bg-cyan-300/10 p-4">
+          <p className="text-xs uppercase tracking-[0.16em] text-cyan-200">Call To Action</p>
+          <p className="mt-2 text-sm text-zinc-100">
+            Reach out for details or schedule a short meeting to confirm fit, align on scope, and set a concrete launch plan.
+          </p>
+        </div>
+
+        <div className="relative mt-7 rounded-2xl border border-zinc-800 bg-zinc-950/70 p-5">
+          <p className="text-center text-xs uppercase tracking-[0.16em] text-zinc-400">Connect</p>
+          <div className="mt-4 flex flex-wrap justify-center gap-4">
+            <Link
+              href="https://www.facebook.com/"
+              target="_blank"
+              rel="noreferrer"
+              aria-label="Facebook"
+              className="inline-flex items-center justify-center rounded-full p-2 text-zinc-100 transition hover:text-cyan-100"
+            >
+              <Facebook className="h-4 w-4" />
+            </Link>
+            <Link
+              href="https://www.instagram.com/thebosqueltd/"
+              target="_blank"
+              rel="noreferrer"
+              aria-label="Instagram"
+              className="inline-flex items-center justify-center rounded-full p-2 text-zinc-100 transition hover:text-fuchsia-100"
+            >
+              <Instagram className="h-4 w-4" />
+            </Link>
+            <Link
+              href="mailto:digitalherencia@outlook.com"
+              aria-label="Email"
+              className="inline-flex items-center justify-center rounded-full p-2 text-zinc-100 transition hover:text-emerald-100"
+            >
+              <Mail className="h-4 w-4" />
+            </Link>
+          </div>
+        </div>
+      </article>
     </Section>
   );
 }
@@ -118,22 +189,50 @@ export function DeckPage() {
       label: 'Home',
       render: () => (
         <Section id="hero" key="hero">
-          <AnimatedHeading
-            eyebrow={deckContent.hero.eyebrow}
-            title={deckContent.hero.title}
-            subtitle={deckContent.hero.subtitle}
-            level="h1"
-          />
-          <div className="mt-6 grid gap-3">
-            {deckContent.hero.valueProps.map((item) => (
-              <article
-                key={item}
-                className="rounded-2xl border border-zinc-800 bg-zinc-950/60 p-4 text-zinc-100"
-              >
-                {item}
-              </article>
-            ))}
-          </div>
+          <article className="relative overflow-hidden rounded-3xl border border-zinc-700 bg-zinc-950/70 p-6 shadow-[0_0_0_1px_rgba(34,211,238,0.1)] sm:p-10">
+            <div
+              aria-hidden
+              className="pointer-events-none absolute -left-24 -top-24 h-72 w-72 rounded-full bg-cyan-400/20 blur-3xl"
+            />
+            <div
+              aria-hidden
+              className="pointer-events-none absolute -bottom-28 -right-24 h-80 w-80 rounded-full bg-fuchsia-400/20 blur-3xl"
+            />
+
+            <p className="relative text-xs uppercase tracking-[0.24em] text-cyan-300/90">
+              {deckContent.hero.eyebrow}
+            </p>
+            <h1 className="relative mt-4 max-w-4xl text-4xl font-semibold leading-tight tracking-tight text-zinc-100 sm:text-5xl">
+              {deckContent.hero.title}
+            </h1>
+            <p className="relative mt-4 max-w-3xl text-base text-zinc-200 sm:text-lg">
+              {deckContent.hero.subtitle}
+            </p>
+
+            <div className="relative mt-7 flex flex-wrap gap-2">
+              {deckContent.brandAssets.entities.map((entity) => (
+                <span
+                  key={entity.name}
+                  className="rounded-full border border-zinc-600/80 bg-zinc-900/80 px-3 py-1 text-xs uppercase tracking-[0.12em] text-zinc-200"
+                >
+                  {entity.name}
+                </span>
+              ))}
+            </div>
+
+            {deckContent.hero.valueProps.length > 0 ? (
+              <div className="relative mt-8 grid gap-3 md:grid-cols-3">
+                {deckContent.hero.valueProps.map((item) => (
+                  <article
+                    key={item}
+                    className="rounded-2xl border border-zinc-700/80 bg-zinc-900/75 p-4 text-sm text-zinc-100"
+                  >
+                    {item}
+                  </article>
+                ))}
+              </div>
+            ) : null}
+          </article>
         </Section>
       ),
     },
@@ -142,29 +241,61 @@ export function DeckPage() {
       label: 'Proof',
       render: () => (
         <Section id="proof-first" key="proof-first">
-          <AnimatedHeading title={deckContent.proofFirst.title} />
-          <div className="mt-5">
-            <div className="grid gap-3">
-              {deckContent.proofFirst.statements.map((statement) => (
-                <article
-                  key={statement}
-                  className="rounded-2xl border border-cyan-300/30 bg-cyan-300/5 p-4 text-zinc-100"
-                >
-                  {statement}
-                </article>
-              ))}
-            </div>
-            {deckContent.proofFirst.image && deckContent.proofFirst.imageAlt ? (
-              <div className="relative mt-4 min-h-56 overflow-hidden rounded-2xl border border-zinc-700 bg-zinc-950/70">
-                <Image
-                  src={deckContent.proofFirst.image}
-                  alt={deckContent.proofFirst.imageAlt}
-                  fill
-                  className="object-cover"
-                />
+          <article className="relative overflow-hidden rounded-3xl border border-zinc-700/80 bg-zinc-950/75 p-6 shadow-[0_0_0_1px_rgba(34,211,238,0.08)] sm:p-8">
+            <div
+              aria-hidden
+              className="pointer-events-none absolute -left-20 -top-20 h-64 w-64 rounded-full bg-cyan-400/20 blur-3xl"
+            />
+            <div
+              aria-hidden
+              className="pointer-events-none absolute -bottom-24 -right-20 h-72 w-72 rounded-full bg-fuchsia-400/15 blur-3xl"
+            />
+
+            <AnimatedHeading
+              eyebrow="Proof"
+              title={deckContent.proofFirst.title}
+              subtitle={deckContent.proofFirst.subtitle}
+              className="relative"
+            />
+
+            <div className="relative mt-6 space-y-4">
+              <div className="grid gap-3 lg:grid-cols-2">
+                {deckContent.proofFirst.statements.map((statement) => {
+                  const [company, ...rest] = statement.split(':');
+                  const details = rest.join(':').trim() || statement;
+
+                  return (
+                    <article
+                      key={statement}
+                      className="relative overflow-hidden rounded-2xl border border-zinc-700/80 bg-linear-to-br from-zinc-950/90 via-zinc-900/75 to-zinc-950/90 p-5 shadow-[0_0_0_1px_rgba(34,211,238,0.08)]"
+                    >
+                      <div
+                        aria-hidden
+                        className="pointer-events-none absolute -right-10 -top-10 h-24 w-24 rounded-full bg-cyan-300/10 blur-2xl"
+                      />
+                      <div className="relative flex items-center justify-between gap-3">
+                        <p className="text-xs uppercase tracking-[0.16em] text-fuchsia-200">
+                          {company.trim()}
+                        </p>
+                      </div>
+                      <p className="relative mt-3 text-sm leading-6 text-zinc-200">{details}</p>
+                    </article>
+                  );
+                })}
               </div>
-            ) : null}
-          </div>
+
+              {deckContent.proofFirst.image && deckContent.proofFirst.imageAlt ? (
+                <div className="relative mt-4 min-h-56 overflow-hidden rounded-2xl border border-zinc-700 bg-zinc-950/70">
+                  <Image
+                    src={deckContent.proofFirst.image}
+                    alt={deckContent.proofFirst.imageAlt}
+                    fill
+                    className="object-cover"
+                  />
+                </div>
+              ) : null}
+            </div>
+          </article>
         </Section>
       ),
     },
@@ -173,26 +304,56 @@ export function DeckPage() {
       label: 'Model',
       render: () => (
         <Section id="brand-positioning" key="brand-positioning">
-          <AnimatedHeading title={deckContent.brandPositioning.title} />
-          <div className="mt-5 space-y-3">
-            {deckContent.brandPositioning.statements.map((statement) => (
-              <article
-                key={statement}
-                className="rounded-2xl border border-zinc-800 bg-zinc-950/60 p-4 text-zinc-200"
-              >
-                {statement}
-              </article>
-            ))}
-          </div>
+          <article className="relative overflow-hidden rounded-3xl border border-zinc-700/80 bg-zinc-950/75 p-6 shadow-[0_0_0_1px_rgba(34,211,238,0.08)] sm:p-8">
+            <div
+              aria-hidden
+              className="pointer-events-none absolute -left-20 -top-20 h-64 w-64 rounded-full bg-cyan-400/20 blur-3xl"
+            />
+            <div
+              aria-hidden
+              className="pointer-events-none absolute -bottom-24 -right-20 h-72 w-72 rounded-full bg-fuchsia-400/15 blur-3xl"
+            />
+
+            <AnimatedHeading
+              eyebrow="Model"
+              title={deckContent.brandPositioning.title}
+              subtitle="Each line shows where cash is created and what gets optimized to expand."
+              className="relative"
+            />
+
+            <div className="relative mt-6 grid gap-3 lg:grid-cols-2">
+              {deckContent.brandPositioning.statements.map((statement) => {
+                const [company, ...rest] = statement.split(':');
+                const details = rest.join(':').trim() || statement;
+
+                return (
+                  <article
+                    key={statement}
+                    className="relative overflow-hidden rounded-2xl border border-zinc-700/80 bg-linear-to-br from-zinc-950/90 via-zinc-900/75 to-zinc-950/90 p-5 shadow-[0_0_0_1px_rgba(34,211,238,0.08)]"
+                  >
+                    <div
+                      aria-hidden
+                      className="pointer-events-none absolute -right-10 -top-10 h-24 w-24 rounded-full bg-cyan-300/10 blur-2xl"
+                    />
+                    <p className="relative text-xs uppercase tracking-[0.16em] text-fuchsia-200">
+                      {company.trim()}
+                    </p>
+                    <p className="relative mt-3 text-sm leading-6 text-zinc-200">{details}</p>
+                  </article>
+                );
+              })}
+            </div>
+          </article>
         </Section>
       ),
     },
     {
       id: 'brand-assets',
-      label: 'Logos',
+      label: 'Brands',
       render: () => (
         <Section id="brand-assets" key="brand-assets">
           <AnimatedHeading
+            eyebrow="Brands"
             title={deckContent.brandAssets.title}
             subtitle={deckContent.brandAssets.subtitle}
           />
@@ -214,13 +375,15 @@ export function DeckPage() {
                 <h3 className="mt-4 text-lg font-semibold text-cyan-200">{entity.name}</h3>
                 <p className="mt-2 text-sm text-zinc-300">{entity.focus}</p>
                 <div className="mt-3 flex flex-wrap gap-3 text-sm">
-                  <Link
-                    className="text-zinc-300 underline underline-offset-2"
-                    href={entity.liveSite}
-                    target="_blank"
-                  >
-                    Website
-                  </Link>
+                  {entity.name !== 'Southwest Media Services' ? (
+                    <Link
+                      className="text-zinc-300 underline underline-offset-2"
+                      href={entity.liveSite}
+                      target="_blank"
+                    >
+                      Website
+                    </Link>
+                  ) : null}
                   {entity.repository ? (
                     <Link
                       className="text-fuchsia-200 underline underline-offset-2"
@@ -258,7 +421,7 @@ export function DeckPage() {
     },
     {
       id: 'funnel-model',
-      label: 'Roles',
+      label: 'Execution',
       render: () => (
         <Section id="funnel-model" key="funnel-model">
           <FunnelSection content={deckContent.funnelModel} />
@@ -266,11 +429,20 @@ export function DeckPage() {
       ),
     },
     {
+      id: 'role',
+      label: 'Roles',
+      render: () => (
+        <Section id="role" key="role" className="items-start pb-32">
+          <RoleBreakdown role={deckContent.role} />
+        </Section>
+      ),
+    },
+    {
       id: 'market-penetration',
-      label: 'Measure',
+      label: 'Controls',
       render: () => (
         <Section id="market-penetration" key="market-penetration">
-          <AnimatedHeading title={deckContent.marketPenetration.title} />
+          <AnimatedHeading eyebrow="Controls" title={deckContent.marketPenetration.title} />
           <div className="mt-5 grid gap-3 md:grid-cols-2">
             {deckContent.marketPenetration.bullets.map((outcome, index) => (
               <article
@@ -308,136 +480,14 @@ export function DeckPage() {
       ),
     },
     {
-      id: 'role',
-      label: 'Impact',
-      render: () => (
-        <Section id="role" key="role">
-          <RoleBreakdown
-            role={deckContent.role}
-            responsibilitiesKpis={deckContent.responsibilitiesKpis}
-          />
-        </Section>
-      ),
-    },
-    {
-      id: 'responsibilities-kpis',
-      label: 'KPIs',
-      render: () => (
-        <Section id="responsibilities-kpis" key="responsibilities-kpis">
-          <AnimatedHeading title="Weekly scorecard" />
-          <div className="mt-5 space-y-4">
-            {deckContent.responsibilitiesKpis.scorecard.map((metric) => (
-              <article
-                key={metric.kpi}
-                className="rounded-xl border border-zinc-800 bg-zinc-950/60 p-4"
-              >
-                <div className="flex flex-wrap items-center gap-2 text-xs uppercase tracking-wide text-zinc-400">
-                  <span>{metric.company}</span>
-                  <span>•</span>
-                  <span>{metric.role}</span>
-                </div>
-                <p className="mt-2 text-sm text-zinc-300">{metric.kpi}</p>
-                <p className="mt-1 text-base font-semibold text-fuchsia-200">{metric.objective}</p>
-                <p className="mt-2 text-xs text-zinc-400">Benchmark: {metric.benchmarkContext}</p>
-                <div className="mt-4 grid gap-3 lg:grid-cols-3">
-                  {metric.tiers.map((tier) => (
-                    <div
-                      key={tier.level}
-                      className="rounded-lg border border-zinc-700/80 bg-zinc-900/70 p-3"
-                    >
-                      <p className="text-sm font-semibold text-zinc-100">{tier.level}</p>
-                      <p className="mt-1 text-xs text-zinc-300">
-                        {tier.effort} · {tier.timeCommitment}
-                      </p>
-                      <p className="mt-3 text-xs font-semibold uppercase tracking-wide text-zinc-400">
-                        Metrics
-                      </p>
-                      <ul className="mt-2 space-y-1 text-xs text-zinc-200">
-                        {tier.metrics.map((item) => (
-                          <li key={item}>• {item}</li>
-                        ))}
-                      </ul>
-                      <p className="mt-3 text-xs font-semibold uppercase tracking-wide text-zinc-400">
-                        Checklist
-                      </p>
-                      <ul className="mt-2 space-y-1 text-xs text-zinc-200">
-                        {tier.checklist.map((item) => (
-                          <li key={item}>• {item}</li>
-                        ))}
-                      </ul>
-                    </div>
-                  ))}
-                </div>
-              </article>
-            ))}
-          </div>
-        </Section>
-      ),
-    },
-    {
-      id: 'compensation-model',
-      label: 'Comp',
-      render: () => (
-        <Section id="compensation-model" key="compensation-model">
-          <CompensationModel content={deckContent.compensationModel} />
-        </Section>
-      ),
-    },
-    {
       id: 'offer',
       label: 'Offer',
       render: () => <OfferExplanationSection id="offer" content={deckContent.offer} />,
     },
     {
       id: 'close',
-      label: 'Thanks',
-      render: () => (
-        <Section id="close" key="close" className="text-center">
-          <AnimatedHeading
-            title="Thank you for reviewing this offer overview"
-            subtitle="If this aligns with your goals, please reach out and we can schedule a discussion to review fit, timeline, and onboarding readiness."
-            className="mx-auto max-w-3xl"
-          />
-          <div className="mx-auto mt-7 grid max-w-5xl gap-4 text-left lg:grid-cols-2">
-            {deckContent.brandAssets.entities.map((entity) => (
-              <article
-                key={entity.name}
-                className="rounded-2xl border border-zinc-800 bg-zinc-950/60 p-4"
-              >
-                <h3 className="text-lg font-semibold text-cyan-200">{entity.name}</h3>
-                <div className="mt-2 flex flex-wrap gap-3 text-sm">
-                  <Link
-                    className="text-zinc-100 underline underline-offset-2"
-                    href={entity.liveSite}
-                    target="_blank"
-                  >
-                    Website
-                  </Link>
-                  {entity.repository ? (
-                    <Link
-                      className="text-fuchsia-200 underline underline-offset-2"
-                      href={entity.repository}
-                      target="_blank"
-                    >
-                      Github
-                    </Link>
-                  ) : null}
-                  {entity.socialLinks.map((link) => (
-                    <Link
-                      key={link.href}
-                      className="text-zinc-300 underline underline-offset-2"
-                      href={link.href}
-                      target="_blank"
-                    >
-                      {link.platform}
-                    </Link>
-                  ))}
-                </div>
-              </article>
-            ))}
-          </div>
-        </Section>
-      ),
+      label: 'Close',
+      render: () => <ClosingSection id="close" />,
     },
   ] satisfies {
     id: DeckSectionId | 'close';
