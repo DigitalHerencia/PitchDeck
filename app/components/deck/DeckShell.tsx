@@ -74,7 +74,7 @@ export function DeckShell({ sections }: DeckShellProps) {
           return;
         }
 
-        const viewportAnchor = target.scrollTop + target.clientHeight * 0.35;
+        const viewportAnchor = target.scrollTop + target.clientHeight * 0.5;
         let nextIndex = 0;
 
         for (let index = 0; index < sectionNodes.length; index += 1) {
@@ -122,7 +122,7 @@ export function DeckShell({ sections }: DeckShellProps) {
       <div aria-hidden className="grain pointer-events-none absolute inset-0 -z-10" />
 
       <main
-        className="deck-scroll h-dvh snap-y snap-mandatory overflow-y-auto"
+        className="deck-scroll h-dvh snap-y snap-mandatory overflow-y-auto scroll-pb-6 scroll-pt-[max(2.5rem,env(safe-area-inset-top))]"
         onScroll={handleScroll}
         onKeyDown={handleKeyDown}
         aria-label="Portfolio deck sections"

@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import { motion, useReducedMotion } from 'framer-motion';
 import { AnimatedHeading } from '@/app/components/deck/AnimatedHeading';
+import { SectionCard } from '@/app/components/deck/SectionCard';
 import type { RevenueEngineContent } from '@/app/data/deck';
 import { motionTokens } from '@/app/lib/motion';
 
@@ -13,10 +14,10 @@ export function RevenueEngine({ content }: { content: RevenueEngineContent }) {
   const activeIndex = content.views.findIndex((view) => view.label === activeView.label);
 
   return (
-    <div>
+    <SectionCard>
       <AnimatedHeading eyebrow="Customers" title={content.title} subtitle={content.subtitle} />
 
-      <div className="mt-5 rounded-2xl border border-zinc-800/80 bg-zinc-950/50 p-3">
+      <div className="mt-5 rounded-2xl bg-zinc-950/50 p-3">
         <div className="flex justify-center" role="tablist" aria-label="Company slides">
           <div className="flex flex-wrap justify-center gap-2">
             {content.views.map((view) => {
@@ -59,7 +60,7 @@ export function RevenueEngine({ content }: { content: RevenueEngineContent }) {
             ? { duration: 0 }
             : { duration: motionTokens.fast, ease: motionTokens.easing }
         }
-        className="mt-5 overflow-hidden rounded-3xl border border-zinc-800 bg-linear-to-b from-zinc-950 to-zinc-900/80"
+        className="mt-5 overflow-hidden rounded-2xl border border-zinc-700/80 bg-linear-to-b from-zinc-950 to-zinc-900/80"
       >
         <div className="border-b border-zinc-800 bg-zinc-900/50 px-5 py-4">
           <div>
@@ -74,7 +75,7 @@ export function RevenueEngine({ content }: { content: RevenueEngineContent }) {
           {activeView.table.map((row, index) => (
             <article
               key={row.step}
-              className="relative rounded-2xl border border-zinc-700 bg-zinc-950/70 p-4 shadow-[0_0_0_1px_rgba(255,255,255,0.02)]"
+              className="relative rounded-2xl bg-zinc-900/70 p-4 shadow-[0_0_0_1px_rgba(34,211,238,0.06)]"
             >
               <div className="mb-3 flex items-center justify-between gap-2">
                 <span className="rounded-full border border-cyan-300/60 bg-cyan-300/10 px-2 py-1 text-xs font-semibold uppercase tracking-wide text-cyan-100">
@@ -109,6 +110,6 @@ export function RevenueEngine({ content }: { content: RevenueEngineContent }) {
           ))}
         </div>
       </motion.div>
-    </div>
+    </SectionCard>
   );
 }

@@ -3,6 +3,7 @@
 import { useMemo, useState } from 'react';
 import { motion, useReducedMotion } from 'framer-motion';
 import { AnimatedHeading } from '@/app/components/deck/AnimatedHeading';
+import { SectionCard } from '@/app/components/deck/SectionCard';
 import type { CompanyRoleModel, FunnelModelContent } from '@/app/data/deck';
 import { motionTokens } from '@/app/lib/motion';
 
@@ -28,10 +29,10 @@ export function FunnelSection({ content }: { content: FunnelModelContent }) {
   );
 
   return (
-    <div>
+    <SectionCard>
       <AnimatedHeading eyebrow="Execution" title={content.title} subtitle={content.subtitle} />
 
-      <div className="mt-5 rounded-2xl border border-zinc-800/80 bg-zinc-950/50 p-3">
+      <div className="mt-5 rounded-2xl bg-zinc-950/50 p-3">
         <div className="flex justify-center" role="tablist" aria-label="Company execution views">
           <div className="flex flex-wrap justify-center gap-2">
             {content.companies.map((company) => {
@@ -68,14 +69,18 @@ export function FunnelSection({ content }: { content: FunnelModelContent }) {
       <article
         id={`company-panel-${selectedCompany.company}`}
         role="tabpanel"
-        className="mt-4 rounded-2xl border border-zinc-800 bg-zinc-950/60 p-4"
+        className="mt-4 rounded-2xl border border-zinc-700/80 bg-zinc-900/70 p-4"
       >
         <p className="text-sm text-cyan-200">Operating focus</p>
         <p className="mt-1 text-sm text-zinc-200">{selectedCompany.operatingFocus}</p>
 
-        <div className="mt-4 rounded-xl border border-zinc-700/80 bg-zinc-900/50 p-3">
+        <div className="mt-4 rounded-xl bg-zinc-900/50 p-3">
           <p className="text-xs uppercase tracking-[0.14em] text-zinc-400">Role View</p>
-          <div className="mt-2 flex flex-wrap gap-2" role="tablist" aria-label="Role execution views">
+          <div
+            className="mt-2 flex flex-wrap gap-2"
+            role="tablist"
+            aria-label="Role execution views"
+          >
             {selectedCompany.roles.map((role) => {
               const isRoleActive = role.role === selectedRole.role;
 
@@ -101,7 +106,7 @@ export function FunnelSection({ content }: { content: FunnelModelContent }) {
       </article>
 
       <div className="mt-5 grid gap-4 lg:grid-cols-[0.95fr,1.05fr]">
-        <article className="rounded-2xl border border-zinc-800 bg-zinc-950/60 p-4">
+        <article className="rounded-2xl bg-zinc-900/70 p-4">
           <p className="text-sm text-fuchsia-200">Role objective</p>
           <p className="mt-1 text-sm text-zinc-100">{selectedRole.objective}</p>
 
@@ -119,7 +124,7 @@ export function FunnelSection({ content }: { content: FunnelModelContent }) {
           </div>
         </article>
 
-        <article className="rounded-2xl border border-zinc-800 bg-zinc-950/60 p-4">
+        <article className="rounded-2xl bg-zinc-900/70 p-4">
           <h3 className="text-sm font-medium text-zinc-100">Daily execution sequence</h3>
           <div className="mt-3 grid gap-3">
             {selectedRole.executionPath.map((step, index) => (
@@ -136,7 +141,7 @@ export function FunnelSection({ content }: { content: FunnelModelContent }) {
                         ease: motionTokens.easing,
                       }
                 }
-                className="rounded-xl border border-zinc-700 bg-zinc-900/70 p-3"
+                className="rounded-xl bg-zinc-900/70 p-3"
               >
                 <div className="grid gap-2 sm:grid-cols-[auto,1fr] sm:items-start">
                   <p className="text-xs font-semibold uppercase tracking-[0.14em] text-cyan-200">
@@ -153,6 +158,6 @@ export function FunnelSection({ content }: { content: FunnelModelContent }) {
           </div>
         </article>
       </div>
-    </div>
+    </SectionCard>
   );
 }

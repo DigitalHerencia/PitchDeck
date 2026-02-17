@@ -8,6 +8,7 @@ import { DeckShell } from '@/app/components/deck/DeckShell';
 import { FunnelSection } from '@/app/components/deck/FunnelSection';
 import { RoleBreakdown } from '@/app/components/deck/RoleBreakdown';
 import { RevenueEngine } from '@/app/components/deck/RevenueEngine';
+import { SectionCard } from '@/app/components/deck/SectionCard';
 import { Section } from '@/app/components/deck/Section';
 import type { DeckSectionId, NdaContent, OfferExplanationContent } from '@/app/data/deck';
 import { deckContent } from '@/app/data/deck';
@@ -25,34 +26,36 @@ function NdaSection({
 }) {
   return (
     <Section id={id} key={id}>
-      <AnimatedHeading eyebrow="NDA" title={content.title} subtitle={content.subtitle} />
-      <div className="mt-5 space-y-4 rounded-2xl border border-zinc-800 bg-zinc-950/60 p-5 text-sm leading-6 text-zinc-200">
-        {content.statement.map((paragraph) => (
-          <p key={paragraph}>{paragraph}</p>
-        ))}
-      </div>
-      <div className="mt-6 rounded-2xl border border-zinc-700 bg-zinc-950/60 p-4">
-        <p className="text-sm text-zinc-200" id="nda-gate-description">
-          {ndaAccepted
-            ? 'NDA agreement confirmed. Remaining sections are now available.'
-            : 'You must accept the NDA agreement checkbox before moving to the rest of the deck.'}
-        </p>
-        <label className="mt-3 flex items-start gap-3 rounded-xl border border-zinc-700 bg-zinc-900/60 p-3 text-sm text-zinc-100">
-          <input
-            type="checkbox"
-            checked={ndaAccepted}
-            onChange={(event) => {
-              if (event.target.checked) {
-                acceptNda();
-              }
-            }}
-            disabled={ndaAccepted}
-            aria-describedby="nda-gate-description"
-            className="mt-0.5 h-4 w-4 rounded border-zinc-500 bg-zinc-900 text-(--accent) focus:ring-cyan-300 disabled:cursor-not-allowed"
-          />
-          <span>{content.acknowledgmentLabel}</span>
-        </label>
-      </div>
+      <SectionCard>
+        <AnimatedHeading eyebrow="NDA" title={content.title} subtitle={content.subtitle} />
+        <div className="mt-5 space-y-4 rounded-2xl border border-zinc-700/80 bg-zinc-900/70 p-5 text-sm leading-6 text-zinc-200">
+          {content.statement.map((paragraph) => (
+            <p key={paragraph}>{paragraph}</p>
+          ))}
+        </div>
+        <div className="mt-6 rounded-2xl border border-zinc-700/80 bg-zinc-900/70 p-4">
+          <p className="text-sm text-zinc-200" id="nda-gate-description">
+            {ndaAccepted
+              ? 'NDA agreement confirmed. Remaining sections are now available.'
+              : 'You must accept the NDA agreement checkbox before moving to the rest of the deck.'}
+          </p>
+          <label className="mt-3 flex items-start gap-3 rounded-xl bg-zinc-900/70 p-3 text-sm text-zinc-100">
+            <input
+              type="checkbox"
+              checked={ndaAccepted}
+              onChange={(event) => {
+                if (event.target.checked) {
+                  acceptNda();
+                }
+              }}
+              disabled={ndaAccepted}
+              aria-describedby="nda-gate-description"
+              className="mt-0.5 h-4 w-4 rounded border-zinc-500 bg-zinc-900 text-[var(--accent)] focus:ring-cyan-300 disabled:cursor-not-allowed"
+            />
+            <span>{content.acknowledgmentLabel}</span>
+          </label>
+        </div>
+      </SectionCard>
     </Section>
   );
 }
@@ -68,29 +71,26 @@ function OfferExplanationSection({
 
   return (
     <Section id={id} key={id} className="items-start pb-32">
-      <AnimatedHeading eyebrow="Offer" title={content.title} subtitle={content.subtitle} />
-      {hasTerms ? (
-        <div className="mt-6 grid gap-3 sm:grid-cols-2">
-          {content.terms.map((term, index) => (
-            <article
-              key={term.category}
-              className="rounded-2xl border border-zinc-800 bg-zinc-950/60 p-4"
-            >
-              <p className="text-xs uppercase tracking-[0.16em] text-zinc-400">Term {index + 1}</p>
-              <h3 className="mt-2 text-sm font-semibold text-cyan-200">{term.category}</h3>
-              <p className="mt-2 text-sm leading-6 text-zinc-300">{term.details}</p>
-            </article>
-          ))}
-        </div>
-      ) : (
-        <article className="mt-6 rounded-2xl border border-amber-300/30 bg-amber-400/10 p-4 text-sm text-amber-100">
-          Offer terms are missing. Add entries in <code>deckContent.offer.terms</code>.
-        </article>
-      )}
-      <div className="mt-5 rounded-2xl border border-fuchsia-300/40 bg-fuchsia-300/5 p-4">
-        <p className="text-xs uppercase tracking-[0.16em] text-fuchsia-200">Next Step</p>
-        <p className="mt-2 text-sm text-zinc-100">{content.ctaLabel}</p>
-      </div>
+      <SectionCard>
+        <AnimatedHeading eyebrow="Offer" title={content.title} subtitle={content.subtitle} />
+        {hasTerms ? (
+          <div className="mt-6 grid gap-3 sm:grid-cols-2">
+            {content.terms.map((term, index) => (
+              <article key={term.category} className="rounded-2xl bg-zinc-900/75 p-4">
+                <p className="text-xs uppercase tracking-[0.16em] text-zinc-400">
+                  Term {index + 1}
+                </p>
+                <h3 className="mt-2 text-sm font-semibold text-cyan-200">{term.category}</h3>
+                <p className="mt-2 text-sm leading-6 text-zinc-300">{term.details}</p>
+              </article>
+            ))}
+          </div>
+        ) : (
+          <article className="mt-6 rounded-2xl border border-amber-300/30 bg-amber-400/10 p-4 text-sm text-amber-100">
+            Offer terms are missing. Add entries in <code>deckContent.offer.terms</code>.
+          </article>
+        )}
+      </SectionCard>
     </Section>
   );
 }
@@ -98,16 +98,7 @@ function OfferExplanationSection({
 function ClosingSection({ id }: { id: string }) {
   return (
     <Section id={id} key={id} className="items-start pb-32">
-      <article className="relative overflow-hidden rounded-3xl border border-zinc-700 bg-zinc-950/70 p-6 sm:p-10">
-        <div
-          aria-hidden
-          className="pointer-events-none absolute -left-20 -top-20 h-64 w-64 rounded-full bg-cyan-400/20 blur-3xl"
-        />
-        <div
-          aria-hidden
-          className="pointer-events-none absolute -bottom-24 -right-16 h-72 w-72 rounded-full bg-fuchsia-400/20 blur-3xl"
-        />
-
+      <SectionCard className="sm:p-10">
         <AnimatedHeading
           eyebrow="Closing"
           title="Thank You For Reviewing The Pitch"
@@ -117,13 +108,13 @@ function ClosingSection({ id }: { id: string }) {
         />
 
         <div className="relative mt-6 grid gap-3 sm:grid-cols-3">
-          <article className="rounded-2xl border border-zinc-700/80 bg-zinc-900/75 p-4 text-sm text-zinc-200">
+          <article className="rounded-2xl bg-zinc-900/75 p-4 text-sm text-zinc-200">
             Real operations, not theory.
           </article>
-          <article className="rounded-2xl border border-zinc-700/80 bg-zinc-900/75 p-4 text-sm text-zinc-200">
+          <article className="rounded-2xl bg-zinc-900/75 p-4 text-sm text-zinc-200">
             Pay tied to collected outcomes.
           </article>
-          <article className="rounded-2xl border border-zinc-700/80 bg-zinc-900/75 p-4 text-sm text-zinc-200">
+          <article className="rounded-2xl bg-zinc-900/75 p-4 text-sm text-zinc-200">
             Growth driven by people, routes, and deals.
           </article>
         </div>
@@ -131,11 +122,12 @@ function ClosingSection({ id }: { id: string }) {
         <div className="relative mt-6 rounded-2xl border border-cyan-300/30 bg-cyan-300/10 p-4">
           <p className="text-xs uppercase tracking-[0.16em] text-cyan-200">Call To Action</p>
           <p className="mt-2 text-sm text-zinc-100">
-            Reach out for details or schedule a short meeting to confirm fit, align on scope, and set a concrete launch plan.
+            Reach out for details or schedule a short meeting to confirm fit, align on scope, and
+            set a concrete launch plan.
           </p>
         </div>
 
-        <div className="relative mt-7 rounded-2xl border border-zinc-800 bg-zinc-950/70 p-5">
+        <div className="relative mt-7 rounded-2xl bg-zinc-950/70 p-5">
           <p className="text-center text-xs uppercase tracking-[0.16em] text-zinc-400">Connect</p>
           <div className="mt-4 flex flex-wrap justify-center gap-4">
             <Link
@@ -165,7 +157,7 @@ function ClosingSection({ id }: { id: string }) {
             </Link>
           </div>
         </div>
-      </article>
+      </SectionCard>
     </Section>
   );
 }
@@ -189,16 +181,7 @@ export function DeckPage() {
       label: 'Home',
       render: () => (
         <Section id="hero" key="hero">
-          <article className="relative overflow-hidden rounded-3xl border border-zinc-700 bg-zinc-950/70 p-6 shadow-[0_0_0_1px_rgba(34,211,238,0.1)] sm:p-10">
-            <div
-              aria-hidden
-              className="pointer-events-none absolute -left-24 -top-24 h-72 w-72 rounded-full bg-cyan-400/20 blur-3xl"
-            />
-            <div
-              aria-hidden
-              className="pointer-events-none absolute -bottom-28 -right-24 h-80 w-80 rounded-full bg-fuchsia-400/20 blur-3xl"
-            />
-
+          <SectionCard className="sm:p-10">
             <p className="relative text-xs uppercase tracking-[0.24em] text-cyan-300/90">
               {deckContent.hero.eyebrow}
             </p>
@@ -232,7 +215,7 @@ export function DeckPage() {
                 ))}
               </div>
             ) : null}
-          </article>
+          </SectionCard>
         </Section>
       ),
     },
@@ -241,16 +224,7 @@ export function DeckPage() {
       label: 'Proof',
       render: () => (
         <Section id="proof-first" key="proof-first">
-          <article className="relative overflow-hidden rounded-3xl border border-zinc-700/80 bg-zinc-950/75 p-6 shadow-[0_0_0_1px_rgba(34,211,238,0.08)] sm:p-8">
-            <div
-              aria-hidden
-              className="pointer-events-none absolute -left-20 -top-20 h-64 w-64 rounded-full bg-cyan-400/20 blur-3xl"
-            />
-            <div
-              aria-hidden
-              className="pointer-events-none absolute -bottom-24 -right-20 h-72 w-72 rounded-full bg-fuchsia-400/15 blur-3xl"
-            />
-
+          <SectionCard>
             <AnimatedHeading
               eyebrow="Proof"
               title={deckContent.proofFirst.title}
@@ -295,7 +269,7 @@ export function DeckPage() {
                 </div>
               ) : null}
             </div>
-          </article>
+          </SectionCard>
         </Section>
       ),
     },
@@ -304,16 +278,7 @@ export function DeckPage() {
       label: 'Model',
       render: () => (
         <Section id="brand-positioning" key="brand-positioning">
-          <article className="relative overflow-hidden rounded-3xl border border-zinc-700/80 bg-zinc-950/75 p-6 shadow-[0_0_0_1px_rgba(34,211,238,0.08)] sm:p-8">
-            <div
-              aria-hidden
-              className="pointer-events-none absolute -left-20 -top-20 h-64 w-64 rounded-full bg-cyan-400/20 blur-3xl"
-            />
-            <div
-              aria-hidden
-              className="pointer-events-none absolute -bottom-24 -right-20 h-72 w-72 rounded-full bg-fuchsia-400/15 blur-3xl"
-            />
-
+          <SectionCard>
             <AnimatedHeading
               eyebrow="Model"
               title={deckContent.brandPositioning.title}
@@ -343,7 +308,7 @@ export function DeckPage() {
                 );
               })}
             </div>
-          </article>
+          </SectionCard>
         </Section>
       ),
     },
@@ -352,61 +317,63 @@ export function DeckPage() {
       label: 'Brands',
       render: () => (
         <Section id="brand-assets" key="brand-assets">
-          <AnimatedHeading
-            eyebrow="Brands"
-            title={deckContent.brandAssets.title}
-            subtitle={deckContent.brandAssets.subtitle}
-          />
-          <div className="mt-6 grid gap-4 lg:grid-cols-2">
-            {deckContent.brandAssets.entities.map((entity) => (
-              <article
-                key={entity.name}
-                className="rounded-2xl border border-zinc-800 bg-zinc-950/60 p-4"
-              >
-                <div className="relative h-52 w-full overflow-hidden rounded-xl border border-zinc-700 bg-zinc-900">
-                  <Image
-                    src={entity.screenshot}
-                    alt={entity.name}
-                    fill
-                    unoptimized
-                    className="object-contain p-2"
-                  />
-                </div>
-                <h3 className="mt-4 text-lg font-semibold text-cyan-200">{entity.name}</h3>
-                <p className="mt-2 text-sm text-zinc-300">{entity.focus}</p>
-                <div className="mt-3 flex flex-wrap gap-3 text-sm">
-                  {entity.name !== 'Southwest Media Services' ? (
-                    <Link
-                      className="text-zinc-300 underline underline-offset-2"
-                      href={entity.liveSite}
-                      target="_blank"
-                    >
-                      Website
-                    </Link>
-                  ) : null}
-                  {entity.repository ? (
-                    <Link
-                      className="text-fuchsia-200 underline underline-offset-2"
-                      href={entity.repository}
-                      target="_blank"
-                    >
-                      Github
-                    </Link>
-                  ) : null}
-                  {entity.socialLinks.map((link) => (
-                    <Link
-                      key={link.href}
-                      className="text-zinc-300 underline underline-offset-2"
-                      href={link.href}
-                      target="_blank"
-                    >
-                      {link.platform}
-                    </Link>
-                  ))}
-                </div>
-              </article>
-            ))}
-          </div>
+          <SectionCard>
+            <AnimatedHeading
+              eyebrow="Brands"
+              title={deckContent.brandAssets.title}
+              subtitle={deckContent.brandAssets.subtitle}
+            />
+            <div className="mt-6 grid gap-4 lg:grid-cols-2">
+              {deckContent.brandAssets.entities.map((entity) => (
+                <article
+                  key={entity.name}
+                  className="rounded-2xl border border-zinc-700/80 bg-zinc-900/75 p-4"
+                >
+                  <div className="relative h-52 w-full overflow-hidden rounded-xl bg-zinc-900">
+                    <Image
+                      src={entity.screenshot}
+                      alt={entity.name}
+                      fill
+                      unoptimized
+                      className="object-contain p-2"
+                    />
+                  </div>
+                  <h3 className="mt-4 text-lg font-semibold text-cyan-200">{entity.name}</h3>
+                  <p className="mt-2 text-sm text-zinc-300">{entity.focus}</p>
+                  <div className="mt-3 flex flex-wrap gap-3 text-sm">
+                    {entity.name !== 'Southwest Media Services' ? (
+                      <Link
+                        className="text-zinc-300 underline underline-offset-2"
+                        href={entity.liveSite}
+                        target="_blank"
+                      >
+                        Website
+                      </Link>
+                    ) : null}
+                    {entity.repository ? (
+                      <Link
+                        className="text-fuchsia-200 underline underline-offset-2"
+                        href={entity.repository}
+                        target="_blank"
+                      >
+                        Github
+                      </Link>
+                    ) : null}
+                    {entity.socialLinks.map((link) => (
+                      <Link
+                        key={link.href}
+                        className="text-zinc-300 underline underline-offset-2"
+                        href={link.href}
+                        target="_blank"
+                      >
+                        {link.platform}
+                      </Link>
+                    ))}
+                  </div>
+                </article>
+              ))}
+            </div>
+          </SectionCard>
         </Section>
       ),
     },
@@ -432,7 +399,7 @@ export function DeckPage() {
       id: 'role',
       label: 'Roles',
       render: () => (
-        <Section id="role" key="role" className="items-start pb-32">
+        <Section id="role" key="role">
           <RoleBreakdown role={deckContent.role} />
         </Section>
       ),
@@ -442,40 +409,39 @@ export function DeckPage() {
       label: 'Controls',
       render: () => (
         <Section id="market-penetration" key="market-penetration">
-          <AnimatedHeading eyebrow="Controls" title={deckContent.marketPenetration.title} />
-          <div className="mt-5 grid gap-3 md:grid-cols-2">
-            {deckContent.marketPenetration.bullets.map((outcome, index) => (
-              <article
-                key={outcome}
-                className="rounded-xl border border-zinc-700/80 bg-zinc-950/60 p-4"
-              >
-                <p className="text-xs uppercase tracking-[0.16em] text-zinc-400">
-                  Outcome scorecard
-                </p>
-                <p className="mt-2 text-sm text-zinc-100">{outcome}</p>
-                {deckContent.marketPenetration.leadSignals[index] ? (
-                  <p className="mt-3 border-t border-zinc-700 pt-3 text-xs text-cyan-200">
-                    Decision rule: {deckContent.marketPenetration.leadSignals[index]}
+          <SectionCard>
+            <AnimatedHeading eyebrow="Controls" title={deckContent.marketPenetration.title} />
+            <div className="mt-5 grid gap-3 md:grid-cols-2">
+              {deckContent.marketPenetration.bullets.map((outcome, index) => (
+                <article key={outcome} className="rounded-2xl bg-zinc-900/75 p-4">
+                  <p className="text-xs uppercase tracking-[0.16em] text-zinc-400">
+                    Outcome scorecard
                   </p>
-                ) : null}
+                  <p className="mt-2 text-sm text-zinc-100">{outcome}</p>
+                  {deckContent.marketPenetration.leadSignals[index] ? (
+                    <p className="mt-3 border-t border-zinc-700 pt-3 text-xs text-cyan-200">
+                      Decision rule: {deckContent.marketPenetration.leadSignals[index]}
+                    </p>
+                  ) : null}
+                </article>
+              ))}
+            </div>
+            {deckContent.marketPenetration.diagram ? (
+              <article className="mt-5 rounded-2xl bg-zinc-900/75 p-4">
+                <div className="relative h-52 w-full overflow-hidden rounded-xl bg-zinc-900">
+                  <Image
+                    src={deckContent.marketPenetration.diagram.imagePath}
+                    alt={deckContent.marketPenetration.diagram.title}
+                    fill
+                    className="object-contain p-2"
+                  />
+                </div>
+                <p className="mt-3 text-sm text-zinc-300">
+                  {deckContent.marketPenetration.diagram.description}
+                </p>
               </article>
-            ))}
-          </div>
-          {deckContent.marketPenetration.diagram ? (
-            <article className="mt-5 rounded-2xl border border-zinc-800 bg-zinc-950/60 p-4">
-              <div className="relative h-52 w-full overflow-hidden rounded-xl border border-zinc-700 bg-zinc-900">
-                <Image
-                  src={deckContent.marketPenetration.diagram.imagePath}
-                  alt={deckContent.marketPenetration.diagram.title}
-                  fill
-                  className="object-contain p-2"
-                />
-              </div>
-              <p className="mt-3 text-sm text-zinc-300">
-                {deckContent.marketPenetration.diagram.description}
-              </p>
-            </article>
-          ) : null}
+            ) : null}
+          </SectionCard>
         </Section>
       ),
     },

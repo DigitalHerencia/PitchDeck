@@ -17,8 +17,7 @@ export function ProofWall({ content }: { content: ProofContent }) {
           <motion.article
             key={project.name}
             initial={{ opacity: 0, y: 16 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, amount: 0.4 }}
+            animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.3, delay: index * 0.05 }}
             className="rounded-2xl border border-zinc-800 bg-zinc-950/60 p-4"
           >

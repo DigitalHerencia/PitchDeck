@@ -17,20 +17,19 @@ export function Section({ id, className, children }: SectionProps) {
     <section
       id={id}
       className={cn(
-        'deck-section relative flex min-h-dvh snap-start items-center px-4 pb-24 pt-[max(3rem,env(safe-area-inset-top))] sm:px-8',
+        'deck-section relative flex min-h-dvh snap-start snap-always items-center px-4 pb-14 pt-[max(2.5rem,env(safe-area-inset-top))] sm:px-8',
         className,
       )}
     >
       <motion.div
         initial={reducedMotion ? undefined : { opacity: 0, y: 10 }}
-        whileInView={reducedMotion ? undefined : { opacity: 1, y: 0 }}
-        viewport={{ once: true, amount: 0.4 }}
+        animate={reducedMotion ? undefined : { opacity: 1, y: 0 }}
         transition={
           reducedMotion
             ? { duration: 0 }
             : { duration: motionTokens.base, ease: motionTokens.easing }
         }
-        className="mx-auto w-full max-w-4xl"
+        className="mx-auto w-full max-w-5xl"
       >
         {children}
       </motion.div>

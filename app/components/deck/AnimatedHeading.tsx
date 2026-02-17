@@ -28,8 +28,7 @@ export function AnimatedHeading({
       ) : null}
       <HeadingTag
         initial={reducedMotion ? undefined : { opacity: 0, y: 10 }}
-        whileInView={reducedMotion ? undefined : { opacity: 1, y: 0 }}
-        viewport={{ once: true, amount: 0.75 }}
+        animate={reducedMotion ? undefined : { opacity: 1, y: 0 }}
         transition={
           reducedMotion
             ? { duration: 0 }
